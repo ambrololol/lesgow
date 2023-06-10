@@ -1,0 +1,345 @@
+<%- include('../partials/header') %>
+
+<div class="content-header">
+  <div class="container-fluid">
+    <div class="row mb-2">
+      <div class="col-sm-6">
+        <h1 class="m-0 text-dark">Tugas</h1>
+      </div>
+    </div>
+    <!-- /.row -->
+  </div>
+  <!-- /.container-fluid -->
+</div>
+<!-- /.content-header -->
+<br />
+<!-- Main Content -->
+<section class="content">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-12">
+        <!-- Table Holder -->
+        <div class="card card-primary card-outline">
+          <div class="card-header">
+            <div class="d-flex justify-content-between">
+              <h3 class="card-title mt-2">List Tugas</h3>
+              <!-- Tombol nambah tugas untuk guru -->
+              <% if (role == 'guru') { %>
+                <button
+                  class="btn btn-default"
+                  data-toggle="modal"
+                  data-target="#modal-buat-tugas"
+                  style="background-color: antiquewhite"
+                >
+                  <i class="fa fa-plus"></i> Tambah Tugas
+                </button>
+              <% } %>
+            </div>
+          </div>
+
+          <div class="card-body">
+            <table class="table table-bordered table-striped">
+              <thead>
+                <tr>
+                  <th>Nama</th>
+                  <th>Deskripsi Tugas</th>
+                  <th>Deadline</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                <% tugas_arr.forEach(tugas => { %>
+                 <tr>
+                  <td><%= tugas.tugas_name %></td>
+                  <td><%= tugas.assignment_description %></td>
+                  <td><%= moment(tugas.deadline).format('dddd, MMMM Do YYYY, h:mm') %></td>
+                  <td>
+                    <a href="javascript:void()" onclick="submissionHistory('<%= tugas.tugas_id %>')"
+                      ><i class="fa fa-clock" title="History"></i
+                    ></a>
+                    <% if (tugas.attachment) { %>
+                      <a href="javascript:void()" onclick="downloadTugas('<%= tugas.attachment %>')"
+                        ><i class="fa fa-arrow-down" title="Download Tugas"></i
+                      ></a>
+                    <% } %>
+                    <% if (role == 'guru') { %>
+                      <a href="javascript:void()" onclick="deleteTugas('<%= tugas.tugas_id %>')"
+                        ><i class="fa fa-trash" title="Delete Tugas"></i
+                      ></a>
+                    <% } %>
+                    <% if (role == 'murid' && moment().isBefore(tugas.deadline)) { %>
+                      <a href="javascript:void()" onclick="uploadSubmission('<%= tugas.tugas_id %>')"
+                        ><i class="fa fa-plus" title="Upload Tugas"></i
+                      ></a>
+                      <% } %>
+                    <!-- Action khusus guru/admin kelas -->
+                  </td>
+                </tr>
+                <% }) %>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="modal fade" id="modal-buat-tugas">
+  <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Buat Tugas Baru</h5>
+        <button
+          type="close"
+          class="close"
+          data-dismiss="modal"
+          aria-label="Close"
+        >
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <form id="buat-tugas-form">
+      <div class="modal-body">
+          <div class="form-group">
+            <label for="judulTugas" class="col-form-label">Judul</label>
+            <input type="text" class="form-control" id="judul_tugas" />
+          </div>
+          <div class="form-group">
+            <label for="deskripsiTugas" class="col-form-label">Deskripsi</label>
+            <textarea class="form-control" id="deskripsi"></textarea>
+          </div>
+          <div class="form-group">
+            <label for="deadline" class="col-form-label">Deadline</label>
+            <input type="text" class="form-control" name="deadlineTugas" id="deadline" />
+          </div>
+          <div class="form-group">
+            <label for="deadline" class="col-form-label">Attachment</label>
+            <input type="file" class="form-control-file" name="attachmentTugas" id="upload_tugas" />
+          </div>
+        
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">
+          Cancel
+        </button>
+        <button type="submit" class="btn btn-primary">Buat</button>
+        
+      </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="modal-upload-submission">
+  <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Upload Tugas</h5>
+        <button
+          type="close"
+          class="close"
+          data-dismiss="modal"
+          aria-label="Close"
+        >
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <form id="buat-submission-form">
+      <div class="modal-body">
+          <input type="hidden" id="tugas_id_submission">
+          <div class="form-group">
+            <label for="judulTugas" class="col-form-label">Keterangan</label>
+            <input type="text" class="form-control" id="deskripsi_submission" />
+          </div>
+          <div class="form-group">
+            <label for="deadline" class="col-form-label">Attachment</label>
+            <input type="file" class="form-control-file" id="upload_submission" />
+          </div>
+        
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">
+            Cancel
+          </button>
+          <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="modal-submission-tugas">
+  <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Submission History</h5>
+        <button
+          type="close"
+          class="close"
+          data-dismiss="modal"
+          aria-label="Close"
+        >
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <table class="table table-bordered table-striped">
+          <thead>
+            <tr>
+              <th>No</th>
+              <th>Waktu Pengumpulan</th>
+              <th>Deskripsi</th>
+              <th>Dikumpul oleh</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody id="history_submission_body">
+            
+          </tbody>
+        </table>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">
+          Close
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+<%- include('../partials/footer') %>
+<script>
+
+  $("#buat-tugas-form").submit(function(e){
+    e.preventDefault()
+
+    var formData = new FormData();
+    formData.append("judul_tugas",$("#judul_tugas").val())
+    formData.append("deskripsi",$("#deskripsi").val())
+    formData.append("deadline",$("#deadline").val())
+    formData.append("upload_tugas",$("#upload_tugas")[0].files[0])
+    $.ajax({
+        type: "POST",
+        enctype: "multipart/form-data",
+        processData: false,
+        contentType: false,
+        cache: false,
+        url: "/tugas/<%= kelas_code %>/tambah_tugas",
+        data: formData,
+        success: function(res){
+          console.log(res)
+          alert(res.message)
+          if(res.status == 'SUCCESS'){
+            window.location.href = '/tugas/<%= kelas_code %>'
+          }
+        }
+      });
+  })
+
+  $("#buat-submission-form").submit(function(e){
+    e.preventDefault()
+
+    var formData = new FormData();
+    formData.append("id_tugas",$("#tugas_id_submission").val())
+    formData.append("deskripsi_submission",$("#deskripsi_submission").val())
+    formData.append("upload_submission",$("#upload_submission")[0].files[0])
+    $.ajax({
+        type: "POST",
+        enctype: "multipart/form-data",
+        processData: false,
+        contentType: false,
+        cache: false,
+        url: "/tugas/<%= kelas_code %>/tambah_submission",
+        data: formData,
+        success: function(res){
+          console.log(res)
+          alert(res.message)
+          if(res.status == 'SUCCESS'){
+            window.location.href = '/tugas/<%= kelas_code %>'
+          }
+        }
+      });
+  })
+
+  function downloadSubmission(submission_path){
+    window.open("/attachment/submission/"+submission_path, '_blank');
+  }
+  function submissionHistory(id_tugas){
+    $.ajax({
+        type: "POST",
+        url: "/tugas/<%= kelas_code %>/get_submission_history",
+        data: {
+          tugas_id: id_tugas
+        },
+        success: function(res){
+          console.log(res)
+          if(res.status == "SUCCESS"){
+            if(res.data.length == 0){
+              alert("No Submission Right Now")
+            }else{
+              let htmlContent = ''
+              res.data.forEach((data,index) => {
+                htmlContent+=`
+                <tr>
+              <td>${parseInt(index+1)}</td>
+              <td>${moment(data.created_at).format('dddd, MMMM Do YYYY, h:mm')}</td>
+              <td>${data.submission_description}</td>
+              <td>${data.username}</td>
+              <td>
+                <a onclick="downloadSubmission('${data.attachment}')"
+                      ><i class="fa fa-arrow-down" title="Download"></i
+                    ></a>
+                <a onclick="deleteSubmission('${data.tugas_detail_id}')"
+                      ><i class="fa fa-trash" title="Delete"></i
+                    ></a>
+              </td>
+            </tr>
+                `
+              });
+              $("#history_submission_body").html(htmlContent)
+              $("#modal-submission-tugas").modal('show')
+            }
+          }
+        }
+      });
+  }
+  function downloadTugas(tugas_path){
+    window.open("/attachment/tugas/"+tugas_path, '_blank');
+  }
+  function uploadSubmission(id_tugas){
+    $("#tugas_id_submission").val(id_tugas)
+    $("#modal-upload-submission").modal('show')
+  }
+  function deleteTugas(id_tugas){
+    if(confirm("Apakah anda yakin?")){
+      $.ajax({
+        type: "POST",
+        url: "/tugas/<%= kelas_code %>/delete_tugas",
+        data: {
+          tugas_id: id_tugas
+        },
+        success: function(res){
+          console.log(res)
+          alert(res.message)
+          if(res.status == 'SUCCESS') window.location.href = '/tugas/<%= kelas_code %>'
+        }
+      });
+    }
+  }
+  function deleteSubmission(id_submission){
+    if(confirm("Apakah anda yakin?")){
+      $.ajax({
+        type: "POST",
+        url: "/tugas/<%= kelas_code %>/delete_submission",
+        data: {
+          submission_id: id_submission
+        },
+        success: function(res){
+          console.log(res)
+          alert(res.message)
+          if(res.status == 'SUCCESS') window.location.href = '/tugas/<%= kelas_code %>'
+        }
+      });
+    }
+  }
+</script>

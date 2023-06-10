@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title> Kamrol Les Abadi | Login </title>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+    <%- include('../partials/inc/style') %>
+  </head>
+  <body class="hold-transition login-page">
+    <div class="login-box">
+      <div class="login-logo">
+        <a href="#"><b>LMS</b></a>
+      </div>
+      <!-- /.login-logo -->
+      <div class="card">
+        <div class="card-body login-card-body">
+          <p class="login-box-msg">Login</p>
+
+          <form id="register_form">
+            <div class="input-group mb-3">
+              <input id="username" name="username" type="email" class="form-control" placeholder="Email" />
+              <div class="input-group-append">
+                <div class="input-group-text">
+                  <span class="fas fa-envelope"></span>
+                </div>
+              </div>
+            </div>
+
+            <div class="input-group mb-3">
+              <input id="password" name="password" type="password" class="form-control" placeholder="Password" />
+              <div class="input-group-append" onclick="showPassword()">
+                <div class="input-group-text">
+                  <span id="icon_password" class="fas fa-eye"></span>
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-8">
+                <div class="icheck-primary">
+                  <input type="checkbox" id="remember" name="remember"/>
+                  <label for="remember"> Remember Me </label>
+                </div>
+              </div>
+              <!-- /.col -->
+              <div class="col-4">
+                <button type="submit" class="btn btn-primary btn-block">
+                  Sign In
+                </button>
+              </div>
+              <!-- /.col -->
+            </div>
+          </form>
+
+          <div class="social-auth-links text-center mb-3">
+            <p class="mb-1">
+              <a href="/auth/forgot_password">Lupa password?</a>
+            </p>
+            <p class="mb-0">
+              <a href="/auth/register" class="text-center">Bikin akun baru!</a>
+            </p>
+          </div>
+   
+  </body>
+  <script src="/plugins/jquery/jquery.min.js"></script>
+  <script>
+    function showPassword(){
+        if($("#password").attr("type") == "password"){
+          $("#icon_password").attr("class","fas fa-eye-slash")
+          $("#password").attr("type","text")
+        }else{
+          $("#icon_password").attr("class","fas fa-eye")
+          $("#password").attr("type","password")
+        }
+    }
+
+    $("#register_form").submit(function(e){
+      e.preventDefault()
+      const data = new FormData(event.target);
+      const value = Object.fromEntries(data.entries());
+      
+      $.ajax({
+        type: "POST",
+        url: "/auth/login",
+        data: value,
+        success: function(res){
+          console.log(res)
+          alert(res.message)
+          if(res.status == 'SUCCESS') window.location.href = "/list-kelas"
+        }
+      });
+    })
+  </script>
+</html>
+
+

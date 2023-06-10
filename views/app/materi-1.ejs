@@ -1,0 +1,135 @@
+<%- include('../partials/header') %>
+
+<div class="content-header">
+  <div class="container-fluid">
+    <div class="row mb-2">
+      <div class="col-sm-6">
+        <h1 class="m-0 text-dark">Materi</h1>
+      </div>
+      <div class="col-sm-2 ml-auto">
+        <% if (role == "guru") { %>
+        <button
+          class="btn btn-default"
+          data-toggle="modal"
+          data-target="#modal-buat-materi"
+          style="background-color: antiquewhite"
+        >
+          <i class="nav-icon fas fa-plus"></i> Buat Materi
+        </button>
+        <% } else { %> <% } %>
+      </div>
+    </div>
+    <!-- /.row -->
+  </div>
+  <!-- /.container-fluid -->
+</div>
+<!-- /.content-header -->
+<br>
+
+<section class="content">
+  <div class="height-100percent container-fluid">
+    <% if (materi_arr.length == 0) { %>
+      <div class="text-center">
+        <h4>Kelas ini belum ada materi</h4>
+       <img class="img-fluid" src="/image/assetmateri.png" alt="Asset Materi" width="500" height="500">
+      </div>
+     <% } %>
+    <div class="d-flex flex-row" style="row-gap: 16px">
+      <div class="flex-row w-100 no-gutters row">
+        <!-- card materi -->
+        <% materi_arr.forEach(materi => { %>
+          <div class="my-3 pr-4 pl-0 col-12 col-sm-6 col-md-6 col-lg-4">
+            <div class="card">
+              <div class="card-header">
+                <h5 class="card-title mb-1" style="font-weight: 500">
+                  <%= materi.judul %>
+                </h5>
+              </div>
+              <div class="card-body">
+                <p class="card-text">
+                  <%= materi.description.slice(0, 180)+'...' %>
+                </p>
+                <a href="/materi/<%= kelas_code %>/detail/<%= materi.materi_id %>" class="btn btn-primary"
+                >Lihat Materi</a
+                >
+              </div>
+            </div>
+          </div>
+          <% }) %>
+        <!-- card materi END -->
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="modal fade" id="modal-buat-materi">
+  <div class="modal-dialog modal-dialog-centered modal-xl">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Buat Kelas</h5>
+        <button
+          type="button"
+          class="close"
+          data-dismiss="modal"
+          aria-label="Close"
+        >
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <!-- Form Buat Materi -->
+        <form id="buat_materi">
+          <div class="form-group">
+            <label for="judulMateri" class="col-form-label">Judul</label>
+            <input type="text" class="form-control" id="judulMateri" name="judulMateri" />
+          </div>
+          <div class="form-group">
+            <label for="deskripsiMateri" class="col-form-label"
+              >Deksripsi</label
+            >
+            <textarea class="form-control" id="deskripsiMateri" name="descriptionMateri"></textarea>
+          </div>
+          <div class="form-group">
+            <label for="fileMateri" class="col-form-label"
+              >Attachment (opsional)</label
+            >
+            <input type="file" class="form-control" id="fileMateri" name="attachment" />
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">
+            Cancel
+          </button>
+          <button type="submit" class="btn btn-primary">Buat</button>
+        </div>
+      </form>
+      <!-- Form Buat Materi END-->
+    </div>
+  </div>
+</div>
+
+<%- include('../partials/footer') %>
+<script>
+  $("#buat_materi").submit(function (e) {
+    var formData = new FormData();
+    formData.append("judul_materi",$("#judulMateri").val())
+    formData.append("deskripsi_materi",$("#deskripsiMateri").val())
+    formData.append("upload_materi",$("#fileMateri")[0].files[0])
+    $.ajax({
+        type: "POST",
+        enctype: "multipart/form-data",
+        processData: false,
+        contentType: false,
+        cache: false,
+        url: "/materi/<%= kelas_code %>/post_materi",
+        data: formData,
+        success: function(res){
+          console.log(res)
+          alert(res.message)
+          if(res.status == 'SUCCESS'){
+            window.location.href = '/materi/<%= kelas_code %>'
+          }
+        }
+      });
+  })
+</script>

@@ -1,0 +1,98 @@
+<!-- jQuery -->
+<script src="/plugins/jquery/jquery.min.js"></script>
+<!-- jQuery UI 1.11.4 -->
+<script src="/plugins/jquery-ui/jquery-ui.min.js"></script>
+<!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
+<script>
+  $.widget.bridge("uibutton", $.ui.button);
+</script>
+<!-- Bootstrap 4 -->
+<script src="/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+<!-- Sparkline -->
+<script src="/plugins/sparklines/sparkline.js"></script>
+<!-- JQVMap -->
+<script src="/plugins/jqvmap/jquery.vmap.min.js"></script>
+<script src="/plugins/jqvmap/maps/jquery.vmap.usa.js"></script>
+<!-- jQuery Knob Chart -->
+<script src="/plugins/jquery-knob/jquery.knob.min.js"></script>
+<!-- daterangepicker -->
+<script src="/plugins/moment/moment.min.js"></script>
+<script src="/plugins/daterangepicker/daterangepicker.js"></script>
+<!-- Tempusdominus Bootstrap 4 -->
+<script src="/plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js"></script>
+<!-- Summernote -->
+<script src="/plugins/summernote/summernote-bs4.min.js"></script>
+<!-- overlayScrollbars -->
+<script src="/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js"></script>
+<!-- socket io -->
+<script src="https://cdn.socket.io/socket.io-3.0.1.min.js"></script>
+<script>
+  var socket = io({
+    autoConnect: true
+  })
+
+  socket.on("connect",()=>{
+    console.log("OK")
+    let user = <%- JSON.stringify(user) %>
+    console.log("User", user)
+    let data = {
+      email: user.email
+    }
+    socket.emit("device-connected", data)
+  })
+</script>
+<!-- AdminLTE App -->
+<script src="/dist/js/adminlte.js"></script>
+<!-- AdminLTE dashboard demo (This is only for demo purposes) -->
+<script src="/dist/js/pages/dashboard.js"></script>
+<!-- AdminLTE for demo purposes -->
+<script src="/dist/js/demo.js"></script>
+<!-- fullcalendar -->
+<script src="/plugins/fullcalendar/main.min.js"></script>
+<script src="
+https://cdn.jsdelivr.net/npm/fullcalendar@6.1.7/index.global.min.js
+"></script>
+<script src="/plugins/fullcalendar-daygrid/main.min.js"></script>
+<script src="/plugins/fullcalendar-timegrid/main.min.js"></script>
+<script src="/plugins/fullcalendar-interaction/main.min.js"></script>
+<script src="/plugins/fullcalendar-bootstrap/main.min.js"></script>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    var calendarEl = document.getElementById("calendar");
+    var calendar = new FullCalendar.Calendar(calendarEl, {
+      initialView: "dayGridMonth",
+    });
+    calendar.render();
+  });
+</script>
+
+<!-- date time picker utk deadline -->
+<script>
+  $(function () {
+    $('input[name="deadlineTugas"]').daterangepicker({
+      singleDatePicker: true,
+      timePicker: true,
+      timePicker24Hour: true,
+      endDate: moment().startOf("hour").add(32, "hour"),
+      locale: {
+        format: "YYYY-MM-DD H:mm:ss",
+      },
+    });
+  });
+</script>
+
+<!-- change color on active link -->
+<script>
+  activeLink = window.location.href;
+  if (activeLink) {
+  }
+  // function changeColor(link) {
+  //   var sidebarLinks = document.getElementsByClassName("nav-link");
+
+  //   for (var i = 0; i < sidebarLinks.length; i++) {
+  //     sidebarLinks[i].classList.remove("active");
+  //   }
+  //   link.classList.add("active");
+  // }
+</script>

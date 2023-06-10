@@ -1,0 +1,7 @@
+{
+    "template_verifikasi_akun": "Link verifikasi berlaku selama 10 menit, silahkan verifikasi akun anda dengan klik link berikut ini \n{{url}}",
+    "template_forgot_password": "Link untuk reset password berlaku selama 10 menit, silahkan masukkan password baru anda pada link berikut ini \n{{url}}",
+    "template_no_reply": "Pesan ini di generate secara otomatis, Mohon untuk tidak membalas pesan ini. Terimakasih atas perhatian anda.",
+    "subject_forgot_password": "[NO REPLY] Reset your password",
+    "subject_verifikasi_akun": "[NO REPLY] Account Verification"
+}

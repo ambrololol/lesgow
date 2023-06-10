@@ -1,0 +1,1 @@
+ALTER TABLE `ms_user` CHANGE `last_login` `last_login` TIMESTAMP NULL DEFAULT NULL;

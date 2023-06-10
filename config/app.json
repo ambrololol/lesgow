@@ -1,0 +1,4 @@
+{
+    "JWT_SECRET_KEY":"t#e!rFn(adkvlne2l4e596912536",
+    "JWT_TOKEN_EXPIRED":"10m"
+}

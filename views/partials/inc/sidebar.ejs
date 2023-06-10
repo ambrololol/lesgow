@@ -1,0 +1,116 @@
+<style>
+  .main-sidebar {
+    background-color: #4d4d4d !important;
+  }
+  .active {
+    background-color: #b46060 !important;
+  }
+</style>
+
+<aside class="main-sidebar sidebar-dark-primary elevation-4">
+  <!-- Sidebar -->
+  <div class="sidebar">
+    <!-- Sidebar user panel (optional) -->
+    <div class="user-panel mt-3 pb-3 mb-3 d-flex">
+      <div class="image">
+        <img
+          src="/image/<%- user.photo_path %>"
+          class="img-circle elevation-2"
+          alt="User Image"
+        />
+      </div>
+      <div class="info">
+        <a href="/profile" class="d-block"><%- user.username %></a>
+      </div>
+    </div>
+
+    <!-- Sidebar Menu -->
+    <nav class="mt-2">
+      <ul
+        class="nav nav-pills nav-sidebar flex-column"
+        data-widget="treeview"
+        role="menu"
+        data-accordion="false"
+        id="pills-tab"
+      >
+        <% if (['list-kelas', 'profile'].includes(page)) { %>
+        <li class="nav-item">
+          <a href="/list-kelas" class="nav-link">
+            <i class="nav-icon fas fa-list"></i>
+            <p>List Kelas</p>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a href="/profile" class="nav-link">
+            <i class="nav-icon fas fa-user"></i>
+            <p>Profile</p>
+          </a>
+        </li>
+        <% } else { %>
+        <li class="nav-item">
+          <a
+            href="/dashboard/<%= kelas.kelas_code %>"
+            class="nav-link"
+            id="dashboard-btn"
+            data-bs-toggle="pill"
+            data-bs-target="#pills-dashboard"
+            role="tab"
+            aria-controls="pills-home"
+          >
+            <i class="nav-icon fas fa-tachometer-alt"></i>
+            <p>Dashboard</p>
+          </a>
+        </li>
+
+        <li class="nav-item">
+          <a
+            href="/materi/<%= kelas.kelas_code %>"
+            class="nav-link"
+            id="materi-btn"
+            data-bs-toggle="pill"
+          >
+            <i class="nav-icon fas fa-solid fa-book"></i>
+            <p>Materi</p>
+          </a>
+        </li>
+
+        <li class="nav-item">
+          <a href="/tugas/<%= kelas.kelas_code %>" class="nav-link">
+            <i class="nav-icon fas fa-solid fa-clipboard"></i>
+            <p>Tugas</p>
+          </a>
+        </li>
+
+        <li class="nav-item">
+          <a href="/orang/<%= kelas.kelas_code %>" class="nav-link">
+            <i class="nav-icon fas fa-regular fa-users"></i>
+            <p>Orang</p>
+          </a>
+        </li>
+
+        <li class="nav-item">
+          <a href="/jadwal/<%= kelas.kelas_code %>" class="nav-link">
+            <i class="nav-icon fas fa-solid fa-calendar-alt"></i>
+            <p>Jadwal</p>
+          </a>
+        </li>
+        <div class="dropdown-divider"></div>
+        <li class="nav-item">
+          <a href="/list-kelas" class="nav-link">
+            <i class="nav-icon fas fa-list"></i>
+            <p>List Kelas</p>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a href="/profile" class="nav-link">
+            <i class="nav-icon fas fa-user"></i>
+            <p>Profile</p>
+          </a>
+        </li>
+        <% } %>
+      </ul>
+    </nav>
+    <!-- Sidebar Menu End -->
+  </div>
+  <!-- /.Sidebar Container End -->
+</aside>

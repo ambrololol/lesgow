@@ -1,0 +1,16 @@
+body {
+  padding: 50px;
+  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif, Comfortaa;
+}
+
+a {
+  color: #00B7FF;
+}
+
+.logo a{
+  font-size: 50px;
+  font-weight: 800;
+  float: left;
+  font-family: 'Courier New', Courier, monospace;
+  color: #06283d;
+}
