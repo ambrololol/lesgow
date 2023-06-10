@@ -246,5 +246,28 @@ router.post('/:kelas_code/get_submission_history', async function(req, res, next
     })
 });
 
+router.get('/:kelas_code/edit/:id', async function(req, res, next){
+    let kelas_code = req.params.kelas_code
+    let tugas_id = req.params.id
+    let user_id = req.user.user_id
+
+    let [db_role, db_err_role] = await model_tr_kelas_member.get_role({
+        kelas_code: kelas_code,
+        user_id: user_id
+    })
+    console.log(db_role[0].role_user, "ROLE")
+    var role = db_role[0].role_user
+    
+    var [res_db, err_db] = await model_kelas.get_kelas_by_code({
+        kelas_code: kelas_code
+    })
+    console.log(res_db)
+    if(err_db){
+        console.log(err_db)
+    }
+    var kelas = res_db[0]
+    var kelas_id = kelas.kelas_id
+    
+});
 
 module.exports = router;

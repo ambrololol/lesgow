@@ -63,17 +63,23 @@
                 >
                   <%= data.kelas_name %>
                 </h5>
-                <p class="card-text"><%= data.kelas_description.slice(0, 30)+'...' %></p>
+               
                 <!-- ngarah ke /dashboard/kodekelas -->
-                <a href="/dashboard/<%= data.kelas_code %>" class="btn btn-primary"
+                <a href="/dashboard/<%= data.kelas_code %>" class="btn btn-light" style="background-color: antiquewhite"
                   >Masuk kelas</a
                 >
               </div>
-            </div>
+              <p class="card-text">
+                <% if (data.kelas_description.length > 100) { %>
+                  <%= data.kelas_description.slice(0, 30) + '...' %>
+                <% } else { %>
+                  <%= data.kelas_description %>
+                <% } %>
+              </p>
           </div>
         </div>
-        <% }) %>
       </div>
+      <% }) %>
     </div>
   </div>
 </section>

@@ -21,14 +21,17 @@
             <div class="d-flex justify-content-between">
               <h3 class="card-title mt-2">List Jadwal Kelas</h3>
               <!-- Tombol nambah tugas untuk guru -->
-              <button
+              <% if (role == "guru") { %>
+               
+                <button
                 class="btn btn-default"
                 data-toggle="modal"
                 data-target="#modal-jadwal"
                 style="background-color: antiquewhite"
-              >
+                >
                 <i class="fa fa-plus"></i> Tambah Jadwal
               </button>
+              <% } %>
             </div>
           </div>
 
@@ -52,13 +55,16 @@
                     <td><%= data.class_location %></td>
                     <td>
                       <!-- Action khusus guru/admin kelas -->
-                      <form method="post" action="/jadwal/<%= kelas.kelas_code %>/delete/<%= data.jadwal_id %>" id="delete-jadwal-<%- data.jadwal_id %>">
-                      <input type="hidden" value="<%= data.jadwal_id %>" name="jadwal_id">
-                      </form>
-                      <a href="javascript:void(0)" onclick="if(confirm('Konfirmasi hapus jadwal')){$('#delete-jadwal-<%- data.jadwal_id %>').submit()}"
-                      ><i class="fa fa-trash" title="Delete Jadwal"></i
-                        ></a>
-                      <a href="javascript:void(0)" data-toggle="modal" data-target="#modal-edit-jadwal"><i class="fas fa-edit" title="Edit Jadwal"></i></a>
+                      <% if (role == "guru") { %>
+                       
+                        <form method="post" action="/jadwal/<%= kelas.kelas_code %>/delete/<%= data.jadwal_id %>" id="delete-jadwal-<%- data.jadwal_id %>">
+                          <input type="hidden" value="<%= data.jadwal_id %>" name="jadwal_id">
+                        </form>
+                        <a href="javascript:void(0)" onclick="if(confirm('Konfirmasi hapus jadwal')){$('#delete-jadwal-<%- data.jadwal_id %>').submit()}"
+                          ><i class="fa fa-trash" title="Delete Jadwal"></i
+                            ></a>
+                            <a href="javascript:void(0)" data-toggle="modal" data-target="#modal-edit-jadwal"><i class="fas fa-edit" title="Edit Jadwal"></i></a>
+                        <% } %>
                     </td>
                   </tr>
                 <% }) %>

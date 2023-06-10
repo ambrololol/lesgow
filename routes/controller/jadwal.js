@@ -2,10 +2,12 @@ const express = require('express');
 const router = express.Router();
 const model_kelas = require('../../models/model_kelas');
 const model_jadwal = require('../../models/model_jadwal');
+const model_tr_kelas_member = require('../../models/model_tr_kelas_member');
 const moment = require('moment')
 
 router.get('/:kelas_code', async function(req, res, next){
     let kelas_code = req.params.kelas_code
+    let user_id = req.user.user_id
     var [res_db, err_db] = await model_kelas.get_kelas_by_code({
         kelas_code: kelas_code
     })
@@ -22,12 +24,19 @@ router.get('/:kelas_code', async function(req, res, next){
     if(errjadwal_db){
         console.log(errjadwal_db)
     }
+    let [db_role, db_err_role] = await model_tr_kelas_member.get_role({
+        kelas_code: kelas_code,
+        user_id: user_id
+    })
+    console.log(db_role[0].role_user,"ROLE")
+    var role = db_role[0].role_user
     res.render('app/jadwal', {
         user: req.user,
         page: 'jadwal',
         kelas: kelas,
         jadwal: resjadwal_db,
-        moment: moment
+        moment: moment,
+        role: role
     });
 });
 
