@@ -28,7 +28,8 @@ const uploadPhoto = multer({
 router.get('/', async function(req, res, next){
     res.render('app/profile', {
         user: req.user,
-        page: 'profile'
+        page: 'profile',
+        currentPage: '/profile'
     });
 });
 

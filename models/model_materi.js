@@ -84,5 +84,19 @@ module.exports = {
             await mysql.endPool()
             return [null, error]
         }
+    },
+    delete_materi: async function(data){
+        try {
+            await mysql.connectAsync()
+            var sql = "DELETE FROM ms_materi WHERE kelas_id = ? AND materi_id = ?;"
+            console.log(data)
+            var [result, cache] = await mysql.executeAsync(sql, [data.kelas_id, data.materi_id])
+            await mysql.endPool()
+            return [result, null]
+        } catch {
+            console.log(error)
+            await mysql.endPool()
+            return [null, error]
+        }
     }
 }

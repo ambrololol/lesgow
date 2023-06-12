@@ -19,100 +19,104 @@
     <!-- daftar orang card -->
     <div class="row d-flex justify-content-center vh-100">
       <div class="col-9 mx-auto">
-    <% arr_orang.forEach(orang => { %>
-          <div class="card">
-            <div class="card-header">
-              <div class="d-flex justify-content-between align-items-center">
-                <div class="image">
-                  <img
-                    src="/image/<%= orang.photo_path %>"
-                    class="img-circle img-size-64 elevation-2"
-                    alt="User Image"
-                  />
+        <% arr_orang.forEach(orang => { %>
+        <div class="card">
+          <div class="card-header">
+            <div class="d-flex justify-content-between align-items-center">
+              <div class="image">
+                <img
+                  src="/image/<%= orang.photo_path %>"
+                  class="img-circle img-size-64 elevation-2"
+                  alt="User Image"
+                />
+              </div>
+              <h5 class="card-title">
+                <% if (orang.role_user == 'guru') { %> Guru <% } else { %> Murid
+                <% } %> - <%= orang.username %>
+              </h5>
+              <div class="d-flex align-items-end flex-column">
+                <p class="card-text">
+                  <small class="text-muted"
+                    >Login Terakhir: <%= orang.last_login %></small
+                  >
+                </p>
+                <!-- Icon muncul cuma buat role guru -->
+                <% if (role == 'guru') { %>
+                <div class="d-flex flex-row">
+                  <% if (user.user_id != orang.user_id) { %>
+                  <a
+                    href="javascript:void()"
+                    onclick="deletePeople('<%= orang.user_id %>')"
+                    style="margin-right: 10px"
+                    ><i class="fa fa-trash" title="Hapus dari kelas"></i
+                  ></a>
+                  <% } else { %>
+                  <a
+                    href="javascript:void()"
+                    onclick="deletePeople('<%= orang.user_id %>')"
+                    style="margin-right: 10px"
+                    ><i class="fa fa-stop" title="Keluar dari kelas"></i
+                  ></a>
+                  <% } %> <% if (orang.role_user == 'murid') { %>
+                  <a
+                    href="javascript:void()"
+                    onclick="setAs('guru', '<%= orang.user_id %>')"
+                    ><i class="fa fa-user" title="Set as teacher"></i
+                  ></a>
+                  <% } else if(orang.user_id != user.user_id) { %>
+                  <a
+                    href="javascript:void()"
+                    onclick="setAs('murid', '<%= orang.user_id %>')"
+                    ><i class="fa fa-book" title="Set as student"></i
+                  ></a>
+                  <% } %>
                 </div>
-                <h5 class="card-title"><% if (orang.role_user == 'guru') { %>
-                  Guru
-                 <% } else { %>
-                  Murid
-                <% } %> - <%= orang.username %></h5>
-                <div class="d-flex align-items-end flex-column">
-                  <p class="card-text">
-                    <small class="text-muted"
-                      >Login Terakhir: <%= orang.last_login %></small
-                    >
-                  </p>
-                  <!-- Icon muncul cuma buat role guru -->
-                  <% if (role == 'guru') { %>
-                    <div class="d-flex flex-row">
-                      <% if (user.user_id != orang.user_id) { %>
-                        <a href="javascript:void()" onclick="deletePeople('<%= orang.user_id %>')" style="margin-right: 10px;"
-                          ><i class="fa fa-trash" title="Hapus dari kelas"></i
-                        ></a>
-                      <% } else { %>
-                        <a href="javascript:void()" onclick="deletePeople('<%= orang.user_id %>')" style="margin-right: 10px;"
-                          ><i class="fa fa-stop" title="Keluar dari kelas"></i
-                        ></a>
-                      <% } %>
-                      <% if (orang.role_user == 'murid') { %>
-                        <a href="javascript:void()" onclick="setAs('guru', '<%= orang.user_id %>')"
-                          ><i class="fa fa-user" title="Set as teacher"></i
-                        ></a>
-                      <% } else if(orang.user_id != user.user_id) { %>
-                        <a href="javascript:void()" onclick="setAs('murid', '<%= orang.user_id %>')"
-                          ><i class="fa fa-book" title="Set as student"></i
-                        ></a>
-                      <% } %>
-                    </div>
-                    <% } %>
-                </div>
+                <% } %>
               </div>
             </div>
           </div>
-          <% }) %>
         </div>
+        <% }) %>
       </div>
+    </div>
   </div>
 </section>
 
 <%- include('../partials/footer') %>
 <script>
-  function setAs(role_choose, user_id){
-    if(confirm("Edit role dari member ini?")){
+  function setAs(role_choose, user_id) {
+    if (confirm("Edit role dari member ini?")) {
       $.ajax({
         type: "POST",
-        url: "/orang/<%- kelas.kelas_code %>/edit/"+user_id,
+        url: "/orang/<%- kelas.kelas_code %>/edit/" + user_id,
         data: {
-          role_member: role_choose
+          role_member: role_choose,
         },
-        success: function(res){
-          console.log(res)
-          alert(res.message)
-          window.location.href = "/orang/<%- kelas.kelas_code %>"
-        }
+        success: function (res) {
+          console.log(res);
+          alert(res.message);
+          window.location.href = "/orang/<%- kelas.kelas_code %>";
+        },
       });
     }
   }
 
-  function deletePeople(user_id){
-    if(confirm("Apakah anda yakin?")){
+  function deletePeople(user_id) {
+    if (confirm("Apakah anda yakin?")) {
       $.ajax({
         type: "POST",
-        url: "/orang/<%- kelas.kelas_code %>/remove/"+user_id,
-        data: {
-          
+        url: "/orang/<%- kelas.kelas_code %>/remove/" + user_id,
+        data: {},
+        success: function (res) {
+          console.log(res);
+          alert(res.message);
+          if (res.status == "SUCCESS" && user_id == "<%- user.user_id %>") {
+            window.location.href = "/list-kelas";
+          } else {
+            window.location.href = "/orang/<%- kelas.kelas_code %>";
+          }
         },
-        success: function(res){
-          console.log(res)
-          alert(res.message)
-          if(res.status == 'SUCCESS' && user_id == "<%- user.user_id %>") {
-            window.location.href = "/list-kelas"
-
-          }else{
-            window.location.href = "/orang/<%- kelas.kelas_code %>"
-
-        }
-      }
-    });
+      });
     }
   }
 </script>

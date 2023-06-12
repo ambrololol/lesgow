@@ -49,9 +49,18 @@
                 <p class="card-text">
                   <%= materi.description.slice(0, 180)+'...' %>
                 </p>
-                <a href="/materi/<%= kelas_code %>/detail/<%= materi.materi_id %>" class="btn btn-default" style="background-color: antiquewhite"
+                <a href="/materi/<%= kelas_code %>/detail/<%= materi.materi_id %>" class="btn btn-primary"
                 >Lihat Materi</a
                 >
+                <!-- UNTUK ROLE GURU -->
+                <% if (role == "guru") { %>
+                 <div class="float-right">
+                  <form method="post" action="/materi/<%= kelas_code %>/delete/<%= materi.materi_id %>" id="delete-materi-<%= materi.materi_id %>">
+                    <input type="hidden" value="<%= materi.materi_id %>" name="materi_id">
+                  </form>
+                  <a href="javascript:void(0)" onclick="if(confirm('Hapus Materi Ini?')){$('#delete-materi-<%= materi.materi_id %>').submit()}"><i class="fa fa-trash" title="Delete Materi"></i></a>
+                 </div>
+                <% } %>
               </div>
             </div>
           </div>
@@ -66,7 +75,7 @@
   <div class="modal-dialog modal-dialog-centered modal-xl">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title">Buat Materi</h5>
+        <h5 class="modal-title">Buat Kelas</h5>
         <button
           type="button"
           class="close"
@@ -89,12 +98,17 @@
             >
             <textarea class="form-control" id="deskripsiMateri" name="descriptionMateri"></textarea>
           </div>
-          <div class="form-group">
-            <label for="fileMateri" class="col-form-label"
-              >Attachment (opsional)</label
-            >
-            <input type="file" class="form-control" id="fileMateri" name="attachment" />
+          <div id="attachmentContainer">
+            <div class="form-group">
+              <label for="fileMateri" class="col-form-label"
+                >Attachment (opsional)</label
+              >
+              <input type="file" class="form-control" id="fileMateri" name="attachment" />
+            </div>
           </div>
+          <!-- BUTTON ROW CONTROL -->
+          <button class="btn btn-primary" id="addRow">Tambah Attachment</button> <button class="btn btn-default" id="deleteRow">Hapus Attachment</button>
+          <!-- BUTTON ROW CONTROL -->
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-dismiss="modal">
@@ -132,4 +146,33 @@
         }
       });
   })
+</script>
+
+<script type="text/javascript">
+  // Add Row Attachment
+  document.getElementById('addRow').addEventListener('click', function (e) {
+  e.preventDefault();
+
+  var container = document.getElementById('attachmentContainer');
+  var newAttachment = document.createElement('div');
+  newAttachment.classList.add('form-group');
+  newAttachment.innerHTML =
+    '<label for="fileMateri' +
+    (container.children.length + 1) +
+    '" class="col-form-label">Attachment (opsional)</label>' +
+    '<input type="file" class="form-control" name="attachment[]" />';
+  container.appendChild(newAttachment);
+});
+</script> 
+
+<script type="text/javascript">
+   // Delete row attachment
+   document.getElementById('deleteRow').addEventListener('click', function (e) {
+  e.preventDefault();
+
+  var container = document.getElementById('attachmentContainer');
+  if (container.children.length > 1) {
+    container.removeChild(container.lastChild);
+  }
+});
 </script>

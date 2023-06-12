@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const model_kelas = require('../../models/model_kelas');
 const model_jadwal = require('../../models/model_jadwal');
-const model_tr_kelas_member = require('../../models/model_tr_kelas_member');
+const model_tr_kelas_member = require('../../models/model_tr_kelas_member')
 const moment = require('moment')
 
 router.get('/:kelas_code', async function(req, res, next){
@@ -36,7 +36,8 @@ router.get('/:kelas_code', async function(req, res, next){
         kelas: kelas,
         jadwal: resjadwal_db,
         moment: moment,
-        role: role
+        role: role,
+        currentPage: '/jadwal'
     });
 });
 
@@ -96,9 +97,9 @@ router.post('/:kelas_code/delete/:jadwal_id', async function(req, res, next){
     return res.redirect('back');
 });
 
-router.post('/:kelas_code/update/:jadwal_id',async function(req, res, next){
+router.post('/:kelas_code/update/:id',async function(req, res, next){
     let kelas_code = req.params.kelas_code
-    let jadwal_id = req.params.jadwal_id
+    let jadwal_id = req.params.id
     var [res_db, err_db] = await model_kelas.get_kelas_by_code({
         kelas_code: kelas_code
     })

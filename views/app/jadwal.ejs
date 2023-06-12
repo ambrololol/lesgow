@@ -22,7 +22,6 @@
               <h3 class="card-title mt-2">List Jadwal Kelas</h3>
               <!-- Tombol nambah tugas untuk guru -->
               <% if (role == "guru") { %>
-               
                 <button
                 class="btn btn-default"
                 data-toggle="modal"
@@ -53,19 +52,18 @@
                     <td><%= data.class_type %></td>
                     <td><%= data.description %></td>
                     <td><%= data.class_location %></td>
+                    <% if (role == "guru") { %>
                     <td>
                       <!-- Action khusus guru/admin kelas -->
-                      <% if (role == "guru") { %>
-                       
-                        <form method="post" action="/jadwal/<%= kelas.kelas_code %>/delete/<%= data.jadwal_id %>" id="delete-jadwal-<%- data.jadwal_id %>">
-                          <input type="hidden" value="<%= data.jadwal_id %>" name="jadwal_id">
-                        </form>
-                        <a href="javascript:void(0)" onclick="if(confirm('Konfirmasi hapus jadwal')){$('#delete-jadwal-<%- data.jadwal_id %>').submit()}"
-                          ><i class="fa fa-trash" title="Delete Jadwal"></i
-                            ></a>
-                            <a href="javascript:void(0)" data-toggle="modal" data-target="#modal-edit-jadwal"><i class="fas fa-edit" title="Edit Jadwal"></i></a>
-                        <% } %>
+                      <form method="post" action="/jadwal/<%= kelas.kelas_code %>/delete/<%= data.jadwal_id %>" id="delete-jadwal-<%- data.jadwal_id %>">
+                      <input type="hidden" value="<%= data.jadwal_id %>" name="jadwal_id">
+                      </form>
+                      <a href="javascript:void(0)" onclick="if(confirm('Konfirmasi hapus jadwal')){$('#delete-jadwal-<%- data.jadwal_id %>').submit()}"
+                      ><i class="fa fa-trash" title="Delete Jadwal"></i
+                        ></a>
+                      <a href="javascript:void(0)" data-toggle="modal" data-target="#modal-edit-jadwal"><i class="fas fa-edit" title="Edit Jadwal"></i></a>
                     </td>
+                    <% } %>
                   </tr>
                 <% }) %>
               </tbody>
@@ -129,6 +127,7 @@
         </div>
         <div class="modal-body">
           <form id="edit_jadwal">
+            <input class="form-control" id="inputId" name="inputId" value="<%= jadwal.jadwal_id %>" type="hidden">
             <div class="form-group">
               <label for="tanggalJadwal" class="col-form-label">Tanggal</label>
               <input class="form-control" type="text" name="deadlineTugas" id="tanggalJadwal" value="<%= jadwal.tanggal %>">

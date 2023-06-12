@@ -18,7 +18,8 @@ router.get('/', async function(req, res, next){
     res.render('app/list_kelas', {
         kelas: res_db,
         user: req.user,
-        page: 'list-kelas'
+        page: 'list-kelas',
+        currentPage: '/list-kelas'
     });
     
 });

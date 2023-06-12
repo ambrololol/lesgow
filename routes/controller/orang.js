@@ -43,7 +43,8 @@ router.get('/:kelas_code', async function(req, res, next){
         page: 'orang',
         kelas: kelas,
         arr_orang: res_member,
-        role:role
+        role:role,
+        currentPage: '/orang'
     });
 });
 
@@ -83,9 +84,9 @@ router.post('/:kelas_code/remove/:user_id', async function(req, res, next){
 
     if(!any_teacher){
         var [res_db_delete, err_db_delete] = await model_tr_kelas_member.edit_role({
+            role_user: 'guru',
             kelas_id: kelas_id,
-            user_id: res_member[0].user_id,
-            role_user: 'guru'
+            user_id: res_member[0].user_id
         })
     }
 

@@ -56,7 +56,8 @@ router.get('/:kelas_code', async function(req, res, next){
         kelas: kelas,
         role: role,
         kelas_code: kelas_code,
-        materi_arr: res_materi
+        materi_arr: res_materi,
+        currentPage: '/materi'
     });
 });
 
@@ -152,8 +153,27 @@ router.get('/:kelas_code/detail/:id', async function(req, res, next){
         kelas_code: kelas_code,
         res_materi: res_materi,
         res_attachment: res_attachment,
-        res_comment: res_comment
+        res_comment: res_comment,
+        currentPage: '/materi'
     });
 });
+
+router.post('/:kelas_code/delete/:id', async function(req, res, next){
+    let kelas_code = req.params.kelas_code
+    let materi_id = req.params.id
+    var [res_db, err_db] = await model_kelas.get_kelas_by_code({
+        kelas_code: kelas_code
+    })
+    let kelas_id = res_db[0].kelas_id
+    var [res_delete_materi, err_delete_materi] = await model_materi.delete_materi({
+        kelas_id: kelas_id,
+        materi_id: materi_id
+    })
+    if(err_delete_materi){
+        console.log(err_delete_materi)
+    }
+    console.log(res_delete_materi)
+    return res.redirect('back');
+})
 
 module.exports = router;

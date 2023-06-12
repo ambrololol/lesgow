@@ -35,13 +35,19 @@
       >
         <% if (['list-kelas', 'profile'].includes(page)) { %>
         <li class="nav-item">
-          <a href="/list-kelas" class="nav-link">
+          <a
+            href="/list-kelas"
+            class="nav-link <%= currentPage === '/list-kelas' ? 'active' : '' %>"
+          >
             <i class="nav-icon fas fa-list"></i>
             <p>List Kelas</p>
           </a>
         </li>
         <li class="nav-item">
-          <a href="/profile" class="nav-link">
+          <a
+            href="/profile"
+            class="nav-link <%= currentPage === '/profile' ? 'active' : '' %>"
+          >
             <i class="nav-icon fas fa-user"></i>
             <p>Profile</p>
           </a>
@@ -50,12 +56,7 @@
         <li class="nav-item">
           <a
             href="/dashboard/<%= kelas.kelas_code %>"
-            class="nav-link"
-            id="dashboard-btn"
-            data-bs-toggle="pill"
-            data-bs-target="#pills-dashboard"
-            role="tab"
-            aria-controls="pills-home"
+            class="nav-link <%= currentPage === '/dashboard' ? 'active' : '' %>"
           >
             <i class="nav-icon fas fa-tachometer-alt"></i>
             <p>Dashboard</p>
@@ -65,7 +66,7 @@
         <li class="nav-item">
           <a
             href="/materi/<%= kelas.kelas_code %>"
-            class="nav-link"
+            class="nav-link <%= currentPage === '/materi' ? 'active' : '' %>"
             id="materi-btn"
             data-bs-toggle="pill"
           >
@@ -75,34 +76,49 @@
         </li>
 
         <li class="nav-item">
-          <a href="/tugas/<%= kelas.kelas_code %>" class="nav-link">
+          <a
+            href="/tugas/<%= kelas.kelas_code %>"
+            class="nav-link <%= currentPage === '/tugas' ? 'active' : '' %>"
+          >
             <i class="nav-icon fas fa-solid fa-clipboard"></i>
             <p>Tugas</p>
           </a>
         </li>
 
         <li class="nav-item">
-          <a href="/orang/<%= kelas.kelas_code %>" class="nav-link">
+          <a
+            href="/orang/<%= kelas.kelas_code %>"
+            class="nav-link <%= currentPage === '/orang' ? 'active' : '' %>"
+          >
             <i class="nav-icon fas fa-regular fa-users"></i>
             <p>Orang</p>
           </a>
         </li>
 
         <li class="nav-item">
-          <a href="/jadwal/<%= kelas.kelas_code %>" class="nav-link">
+          <a
+            href="/jadwal/<%= kelas.kelas_code %>"
+            class="nav-link <%= currentPage === '/jadwal' ? 'active' : '' %>"
+          >
             <i class="nav-icon fas fa-solid fa-calendar-alt"></i>
             <p>Jadwal</p>
           </a>
         </li>
         <div class="dropdown-divider"></div>
         <li class="nav-item">
-          <a href="/list-kelas" class="nav-link">
+          <a
+            href="/list-kelas"
+            class="nav-link <%= currentPage === '/list-kelas' ? 'active' : '' %>"
+          >
             <i class="nav-icon fas fa-list"></i>
             <p>List Kelas</p>
           </a>
         </li>
         <li class="nav-item">
-          <a href="/profile" class="nav-link">
+          <a
+            href="/profile"
+            class="nav-link <%= currentPage === '/profile' ? 'active' : '' %>"
+          >
             <i class="nav-icon fas fa-user"></i>
             <p>Profile</p>
           </a>

@@ -15,7 +15,8 @@ router.get('/:kelas_code', async function(req, res, next){
     res.render('app/dashboard', {
         user: req.user,
         page: 'dashboard',
-        kelas: kelas
+        kelas: kelas,
+        currentPage: '/dashboard'
     });
 });
 
