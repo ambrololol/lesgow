@@ -55,21 +55,21 @@
                   <td><%= moment(tugas.deadline).format('dddd, MMMM Do YYYY, h:mm') %></td>
                   <td>
                     <a href="javascript:void()" onclick="submissionHistory('<%= tugas.tugas_id %>')"
-                      ><i class="fa fa-clock" title="History"></i
+                      ><i class="fa fa-clock"  style="color: black;" title="History"></i
                     ></a>
                     <% if (tugas.attachment) { %>
                       <a href="javascript:void()" onclick="downloadTugas('<%= tugas.attachment %>')"
-                        ><i class="fa fa-arrow-down" title="Download Tugas"></i
+                        ><i class="fa fa-arrow-down" style="color: black;" title="Download Tugas"></i
                       ></a>
                     <% } %>
                     <% if (role == 'guru') { %>
                       <a href="javascript:void()" onclick="deleteTugas('<%= tugas.tugas_id %>')"
-                        ><i class="fa fa-trash" title="Delete Tugas"></i
+                        ><i class="fa fa-trash"  style="color: black;" title="Delete Tugas"></i
                       ></a>
                     <% } %>
                     <% if (role == 'murid' && moment().isBefore(tugas.deadline)) { %>
                       <a href="javascript:void()" onclick="uploadSubmission('<%= tugas.tugas_id %>')"
-                        ><i class="fa fa-plus" title="Upload Tugas"></i
+                        ><i class="fa fa-plus"  style="color: black;" title="Upload Tugas"></i
                       ></a>
                       <% } %>
                     <!-- Action khusus guru/admin kelas -->
@@ -123,7 +123,7 @@
         <button type="button" class="btn btn-secondary" data-dismiss="modal">
           Cancel
         </button>
-        <button type="submit" class="btn btn-primary">Buat</button>
+        <button type="submit" class="btn btn-default"  style="background-color: antiquewhite" >Buat</button>
         
       </div>
       </form>
