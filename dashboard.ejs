@@ -1,0 +1,186 @@
+<%- include('../partials/header') %>
+<!-- Content Header (Page header) -->
+<div class="content-header">
+    <div class="container-fluid">
+      <div class="row mb-2">
+        <div class="col-sm-6">
+          <h1 class="m-0 text-dark">Dashboard <small> / <%= kelas.kelas_code %></small></h1>
+        </div>
+      </div>
+      <!-- /.row -->
+    </div>
+    <!-- /.container-fluid -->
+  </div>
+  <!-- /.content-header -->
+
+  <!-- Main Content -->
+  <section class="content">
+  <div class="row">
+    <!-- Left col -->
+    <section class="col-lg-6">
+      <!-- Materi Card -->
+      <div class="card">
+        <!-- Card header -->
+        <div class="card-header">
+          <div class="d-flex justify-content-between">
+            <h3 class="card-title">
+              <i class="nav-icon fas fa-regular fa-book"></i>
+              Materi
+            </h3>
+            <a href="/materi/<%= kelas.kelas_code %>" style="color: black; text-decoration: underline;">Lihat semua</a>
+          </div>
+          <div class="card-tools">
+          </div>
+        </div> 
+        <!-- Card body -->
+        <div class="card-body">
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item">
+              <img src="/dist/img/default-150x150.png" alt="Product 1" class="img-square img-size-32 mr-2">
+              Lingkaran
+              <p>Menguasai lingkaran setan</p>
+            </li>
+            <li class="list-group-item">
+              <img src="/dist/img/default-150x150.png" alt="Product 1" class="img-square img-size-32 mr-2">
+              Aljabar
+              <p>Menguasai aljabar penuh kekocakan</p>
+            </li>
+          </ul>
+        </div>
+        </div>
+        
+      <!-- Tugas Card -->
+    <div class="card">
+      <!-- Card header -->
+      <div class="card-header">
+        <div class="d-flex justify-content-between">
+          <h3 class="card-title">
+            <i class="nav-icon fas fa-regular fa-clipboard"></i>
+            Tugas
+          </h3>
+          <a href="/tugas/<%= kelas.kelas_code %>" style="color: black; text-decoration: underline;">Lihat semua</a>
+        </div>
+        <div class="card-tools">
+        </div>
+      </div> 
+      <!-- Card body -->
+      <div class="card-body table-responsive p-0">
+        <table class="table table-striped table-valign-middle">
+          <thead>
+            <tr>
+              <th>Judul</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Present tense</td>
+              <td>Selesai</td>
+            </tr>
+            <tr>
+              <td>Essay Writing</td>
+              <td>Terlambat</td>
+            </tr>
+            <tr>
+              <td>Story Telling</td>
+              <td>Berlangsung</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+        </div>
+
+        <!-- Orang Card -->
+        <div class="card">
+          <!-- Card header -->
+          <div class="card-header">
+            <div class="d-flex justify-content-between">
+              <h3 class="card-title">
+                <i class="nav-icon fas fa-solid fa-users"></i>
+                Orang
+              </h3>
+              <a href="/orang/<%= kelas.kelas_code %>" style="color: black; text-decoration: underline;">Lihat semua</a>
+            </div>
+            <div class="card-tools">
+            </div>
+          </div> 
+          <!-- Card body -->
+          <div class="card-body">
+            <ul class="list-group list-group-flush">
+              <li class="list-group-item">
+                <img src="/dist/img/default-150x150.png" alt="Product 1" class="img-circle img-size-32 mr-2">
+                Kriadi Bicaksana
+              </li>
+              <li class="list-group-item">
+                <img src="/dist/img/default-150x150.png" alt="Product 1" class="img-circle img-size-32 mr-2">
+                Muhammad Kamrol
+              </li>
+            </ul>
+          </div>
+  </section>
+
+  <!-- Right Col -->
+  <section class="col-lg-6">
+    <!-- Calendar card -->
+    <div class="card">
+      <div class="card-header border-0">
+        <div class="d-flex justify-content-between">
+        <h3 class="card-title">
+          <i class="far fa-calendar-alt"></i>
+          Kalendar
+        </h3>
+        <a href="javascript:void(0)" style="color: black; text-decoration: underline;">Lihat semua</a>
+      </div>
+        <div class="card-tools">
+        </div>
+        </div>
+        <div class="card-body pt-0">
+          <!-- The calendar (masih mencari plugin kalender) -->
+          <div id="calendar" style="width: 100%"></div>
+        </div>
+      </div>
+
+      <!-- Jadwal card -->
+      <div class="card">
+        <div class="card-header">
+          <div class="d-flex justify-content-between">
+            <h3 class="card-title">
+              <i class="nav-icon fas fa-solid fa-users"></i>
+              Jadwal
+            </h3>
+            <a href="/jadwal/<%= kelas.kelas_code %>" style="color: black; text-decoration: underline;">Lihat semua</a>
+          </div>
+          <div class="card-tools">
+          </div>
+        </div>
+         <!--Card Body  -->
+         <div class="card-body table-responsive p-0">
+          <table class="table table-striped table-valign-middle">
+            <thead>
+              <tr>
+                <th>Waktu</th>
+                <th>Tipe Kelas</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Selasa, 2:00</td>
+                <td>Offline</td>
+              </tr>
+              <tr>
+                <td>Kamis, 4:00</td>
+                <td>Online</td>
+              </tr>
+              <tr>
+                <td>Jumat, 1:30</td>
+                <td>Offline</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        </div>
+      </section>
+    </div>
+  </section>
+  
+    <%- include('../partials/footer') %>

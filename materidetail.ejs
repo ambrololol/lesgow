@@ -1,0 +1,142 @@
+<%- include('../partials/header') %>
+
+<div class="content-header">
+  <div class="container-fluid">
+    <div class="row mb-2">
+      <div class="col-sm-6">
+        <h1 class="m-0 text-dark">Materi</h1>
+      </div>
+    </div>
+    <!-- /.row -->
+  </div>
+  <!-- /.container-fluid -->
+</div>
+
+<section class="content">
+  <div class="container-fluid">
+    <% res_materi.forEach(materi => { %>
+    <div class="card card-default">
+      <!-- header -->
+      <div class="card-header">
+        <h3 class="card-title text-muted">
+          Posted by: <%= materi.posted_by %>
+        </h3>
+      </div>
+      <!-- body -->
+      <div class="card-body">
+        <div class="col-12">
+          <h4><%= materi.judul %></h4>
+          <div class="tab-custom-content">
+            <p class="lead mb-0"><%= materi.description %></p>
+          </div>
+        </div>
+      </div>
+      <!-- ATTACHMENT HOLDER -->
+      <div class="card-footer">
+        <a href="javascript:void(0)" class="btn btn-default">
+          <div class="col-12">
+            <div
+              class="justify-content-around"
+              style="display: flex; align-items: center"
+            >
+              <i class="fas fa-file"></i>
+              <div class="p-2">Nama Attachment</div>
+              <i class="fas fa-arrow-alt-circle-down"></i>
+            </div>
+          </div>
+        </a>
+      </div>
+    </div>
+
+    <!-- FORUM DISKUISI -->
+    <h4 class="text mb-1 pb-2">Diskusi</h4>
+    <div class="card card-default">
+      <div class="card-body pad">
+        <div class="mb-3">
+          <textarea
+            class="textarea"
+            placeholder="Write something here.."
+            style="
+              width: 100%;
+              height: 200px;
+              font-size: 14px;
+              line-height: 18px;
+              border: 1px solid #dddddd;
+              padding: 10px;
+            "
+          ></textarea>
+        </div>
+        <div class="row">
+          <div class="col">
+            <!-- FIRST COMMENT -->
+            <div class="d-flex flex-start">
+              <img
+                src="/image/default_photo.jpg"
+                alt="Avatar"
+                class="rounded-circle shadow-1-strong me-3"
+                width="65"
+                height="65"
+              />
+              <div class="flex-grow-1 flex-shrink-1">
+                <div>
+                  <div
+                    class="d-flex justify-content-between align-items-center"
+                  >
+                    <p class="mb-1">
+                      <%= user.username %>
+                      <span class="small">- 30 menit yang lalu</span>
+                    </p>
+                    <a href="#"
+                      ><i class="fas fa-reply fa-xs"></i
+                      ><span class="small">Reply</span></a
+                    >
+                  </div>
+                  <p class="small mb-0 ml-1">
+                    ini contohnya komen, kamu jangan komen, saya cape
+                  </p>
+                </div>
+
+                <!-- NESTED COMMENT -->
+                <div class="d-flex flex-start mt-4">
+                  <a class="me-3" href="#">
+                    <img
+                      class="rounded-circle shadow-1-strong"
+                      src="https://mdbcdn.b-cdn.net/img/Photos/Avatars/img%20(11).webp"
+                      alt="avatar"
+                      width="65"
+                      height="65"
+                    />
+                  </a>
+                  <div class="flex-grow-1 flex-shrink-1">
+                    <div>
+                      <div
+                        class="d-flex justify-content-between align-items-center"
+                      >
+                        <p class="mb-1">
+                          Simona Disa <span class="small">- 3 hours ago</span>
+                        </p>
+                        <a href="#"
+                          ><i class="fas fa-reply fa-xs"></i
+                          ><span class="small">Reply</span></a
+                        >
+                      </div>
+                      <p class="small mb-0">
+                        letters, as opposed to using 'Content here, content
+                        here', making it look like readable English.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+                <!-- NESTED COMMENT END -->
+              </div>
+            </div>
+            <!-- FIRST COMMENT END -->
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <% }) %>
+  </div>
+</section>
+<%- include('../partials/footer') %>

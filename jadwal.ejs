@@ -1,0 +1,197 @@
+<%- include('../partials/header') %> 
+
+<div class="content-header">
+    <div class="container-fluid">
+      <div class="row mb-2">
+        <div class="col-sm-6">
+          <h1 class="m-0 text-dark">Jadwal</h1>
+        </div>
+      </div>
+      <!-- /.row -->
+    </div>
+    <!-- /.container-fluid -->
+  </div>
+  <br>
+  <section class="content">
+    <div class="container-fluid">
+        <div class="row">
+          <div class="col-md-12">
+            <div class="card card-primary card-outline">
+          <div class="card-header">
+            <div class="d-flex justify-content-between">
+              <h3 class="card-title mt-2">List Jadwal Kelas</h3>
+              <!-- Tombol nambah tugas untuk guru -->
+              <% if (role == "guru") { %>
+                <button
+                class="btn btn-default"
+                data-toggle="modal"
+                data-target="#modal-jadwal"
+                style="background-color: antiquewhite"
+                >
+                <i class="fa fa-plus"></i> Tambah Jadwal
+              </button>
+              <% } %>
+            </div>
+          </div>
+
+          <div class="card-body">
+            <table class="table table-bordered table-striped">
+              <thead>
+                <tr>
+                  <th>Tanggal</th>
+                  <th>Tipe kelas</th>
+                  <th>Deskripsi Kegiatan</th>
+                  <th>Lokasi</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                <% jadwal.forEach(function(data) { %>
+                  <tr>
+                    <td><%= moment(data.tanggal).format('dddd, MMMM Do YYYY, h:mm') %></td>
+                    <td><%= data.class_type %></td>
+                    <td><%= data.description %></td>
+                    <td><%= data.class_location %></td>
+                    <% if (role == "guru") { %>
+                    <td>
+                      <!-- Action khusus guru/admin kelas -->
+                      <form method="post" action="/jadwal/<%= kelas.kelas_code %>/delete/<%= data.jadwal_id %>" id="delete-jadwal-<%- data.jadwal_id %>">
+                      <input type="hidden" value="<%= data.jadwal_id %>" name="jadwal_id">
+                      </form>
+                      <a href="javascript:void(0)" onclick="if(confirm('Konfirmasi hapus jadwal')){$('#delete-jadwal-<%- data.jadwal_id %>').submit()}"
+                      ><i class="fa fa-trash"  style="color: black;" title="Delete Jadwal"></i
+                        ></a>
+                      <a href="javascript:void(0)" data-toggle="modal" data-target="#modal-edit-jadwal"><i class="fas fa-edit"  style="color: black;"title="Edit Jadwal"></i></a>
+                    </td>
+                    <% } %>
+                  </tr>
+                <% }) %>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        </div>
+      </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="modal fade" id="modal-jadwal">
+    <div class="modal-dialog modal-dialog-centered modal-xl">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Tambah Jadwal Baru</h5>
+          <button type="close" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form id="buat_jadwal">
+            <div class="form-group">
+              <label for="tanggalJadwal" class="col-form-label">Tanggal</label>
+              <input class="form-control" type="text" name="deadlineTugas" id="tanggalJadwal">
+            </div>
+            <div class="form-group">
+              <label for="tipeKelas" class="col-form-label">Tipe Kelas (Online / Offline)</label>
+              <select name="class_type" id="tipeKelas" class="form-control">
+                <option value="online">Online</option>
+                <option value="offline">Offline</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="deskripsiJadwal" class="col-form-label">Deskripsi Kegiatan</label>
+              <textarea class="form-control" id="deskripsiJadwal" name="description"></textarea>
+            </div>
+            <div class="form-group">
+              <label for="lokasi" class="col-form-label">Lokasi</label>
+              <input type="text" class="form-control" id="lokasi" name="class_location">
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+            <button type="submit" class="btn btn-default" style="background-color: antiquewhite">Buat</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  <!-- modal edit jadwal -->
+  <div class="modal fade" id="modal-edit-jadwal">
+    <div class="modal-dialog modal-dialog-centered modal-xl">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Edit Jadwal</h5>
+          <button type="close" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form id="edit_jadwal">
+            <input class="form-control" id="inputId" name="inputId" value="<%= jadwal.jadwal_id %>" type="hidden">
+            <div class="form-group">
+              <label for="tanggalJadwal" class="col-form-label">Tanggal</label>
+              <input class="form-control" type="text" name="deadlineTugas" id="tanggalJadwal" value="<%= jadwal.tanggal %>">
+            </div>
+            <div class="form-group">
+              <label for="tipeKelas" class="col-form-label">Tipe Kelas (Online / Offline)</label>
+              <select name="class_type_edit" id="tipeKelas" class="form-control">
+                <option value="online" <% if (jadwal.class_type == "online") { %> selected <% } %>>Online</option>
+                <option value="offline" <% if (jadwal.class_type == "offline") { %> selected <% } %>>Offline</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="deskripsiJadwal" class="col-form-label">Deskripsi Kegiatan</label>
+              <textarea class="form-control" id="deskripsiJadwal" name="description_edit" value="<%= jadwal.description %>"></textarea>
+            </div>
+            <div class="form-group">
+              <label for="lokasi" class="col-form-label">Lokasi</label>
+              <input type="text" class="form-control" id="lokasi" name="class_location_edit" value="<%= jadwal.class_location %>">
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+            <button type="submit" class="btn btn-primary">Save</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+<%- include('../partials/footer') %>
+<script>
+  $("#buat_jadwal").submit(function (e) {
+    e.preventDefault();
+    const data = new FormData(event.target);
+    const value = Object.fromEntries(data.entries());
+    
+    $.ajax({
+      type: "POST",
+      url: "/jadwal/<%= kelas.kelas_code %>/post_jadwal",
+      data: value,
+      success: function(res){
+        alert(res.message);
+        if (res.status == "SUCCESS") {
+          window.location.href = "/jadwal/<%= kelas.kelas_code %>";
+        }
+      }
+    })
+  });
+</script>
+<script>
+  $("#edit_jadwal").submit(function (e) {
+    e.preventDefault();
+    const data = new FormData(event.target);
+    const value = Object.fromEntries(data.entries());
+    
+    $.ajax({
+      type: "POST",
+      url: "/jadwal/<%= kelas.kelas_code %>/update/<%= jadwal.jadwal_id %>",
+      data: value,
+      success: function(res){
+        alert(res.message);
+        if (res.status == "SUCCESS") {
+          window.location.href = "/jadwal/<%= kelas.kelas_code %>";
+        }
+      }
+    })
+  });
+</script>
