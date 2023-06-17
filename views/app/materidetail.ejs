@@ -20,17 +20,17 @@
       <div class="card-header">
         <div style="display: flex; justify-content: space-between;">
           <h3 class="card-title text-muted">
-            Posted by: <%= materi.username %>
+            Dibuat oleh: <%= materi.username %>
           </h3>
           <form id="edit_materi_form">
             <div id="edit_materi_1">
               <a href="javascript:void()" onclick="EditMateriToggle()"
-                ><i class="fa fa-pen" title="Edit Materi"></i
+                ><i class="fa fa-pen" style= "color: black" title="Edit Materi"></i
               ></a>
             </div>
             <div id="edit_materi_2" style="display: none;">
-              <button type="button" class="btn btn-secondary"  onclick="EditMateriToggle()">Cancel</button>
-              <button type="submit" class="btn btn-primary">Save</button>
+              <button type="button" class="btn btn-secondary"  onclick="EditMateriToggle()">Kembali</button>
+              <button type="submit" class="btn btn-default" style="background-color: antiquewhite">Simpan</button>
             </div>
         </div>
       </div>
@@ -74,13 +74,13 @@
         <div class="mb-3">
           <form id="post-comment">
             <div id="replyTo" style="display: none; justify-content: space-between; margin-bottom: 15px;">
-              <p style="color: blue;">Reply to: <span id="receiver-comment"></span></p>
+              <p style="color: black;">Balas ke: <span id="receiver-comment"></span></p>
               <button id="cancelReply" class="btn btn-secondary">Cancel</button>
             </div>
             <input type="hidden" id="parent_comment_id" name="parent_comment_id" value="">
             <input type="hidden" id="super_parent_comment_id" name="super_parent_comment_id" value="">
             <textarea
-            placeholder="Write something here.."
+            placeholder="Tulis sesuatu di sini..."
             class="form-control"
             id="diskusi"
             name="diskusi"
@@ -95,7 +95,7 @@
           ></textarea>
           <div style="display: flex; justify-content: space-between; margin-top: 15px;">
             <input type="file" class="form-file-control" id="attachment-comment">
-            <button class="btn btn-primary" type="submit">Post Comment</button>
+            <button class="btn btn-default" style="background-color: antiquewhite" type="submit">Unggah</button>
           </div>
         </form>
         </div>
@@ -115,16 +115,14 @@
                   />
                   <div class="flex-grow-1 flex-shrink-1">
                     <div>
-                      <div
-                        class="d-flex justify-content-between align-items-center"
-                      >
+                      <div class="d-flex justify-content-between align-items-center">
                         <p class="mb-1">
                           <%= comment.username %>
                           <span class="small">- 30 menit yang lalu</span>
                         </p>
                         <a href="javascript:void()" onclick="replyToComment('<%= comment.username %>','<%= comment.comment_id %>')"
-                          ><i class="fas fa-reply fa-xs"></i
-                          ><span class="small">Reply</span></a
+                          ><i class="fas fa-reply fa-sm"></i
+                          ><span class="small" style="font-size: 1.2em;"> Balas</span></a
                         >
                       </div>
                       <p class="small ml-1 mb-2">
@@ -170,8 +168,8 @@
                               <%= obj.username %> > <%= obj.reply_to_username %> <span class="small">- 3 hours ago</span>
                             </p>
                             <a href="javascript:void()" onclick="replyToComment('<%= obj.username %>','<%= obj.comment_id %>','<%= obj.super_parent_comment_id %>')"
-                              ><i class="fas fa-reply fa-xs"></i
-                              ><span class="small">Reply</span></a
+                              ><i class="fas fa-reply fa-sm"></i
+                                ><span class="small" style="font-size: 1.2em;"> Balas</span></a
                             >
                           </div>
                           <p class="small mb-2">

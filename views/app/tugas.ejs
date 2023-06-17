@@ -22,7 +22,7 @@
         <div class="card card-danger card-outline">
           <div class="card-header">
             <div class="d-flex justify-content-between">
-              <h3 class="card-title mt-2">List Tugas</h3>
+              <h4 class="text mb-1 pb-2 mt-3">List Tugas</h4>
               <!-- Tombol nambah tugas untuk guru -->
               <% if (role == 'guru') { %>
                 <button
@@ -43,8 +43,8 @@
                 <tr>
                   <th>Nama</th>
                   <th>Deskripsi Tugas</th>
-                  <th>Deadline</th>
-                  <th>Action</th>
+                  <th>Batas Waktu</th>
+                  <th>Aksi</th>
                 </tr>
               </thead>
               <tbody>
@@ -55,11 +55,11 @@
                   <td><%= moment(tugas.deadline).format('dddd, MMMM Do YYYY, h:mm') %></td>
                   <td>
                     <a href="javascript:void()" onclick="submissionHistory('<%= tugas.tugas_id %>')"
-                      ><i class="fa fa-clock" style="color: black;" title="History"></i
+                      ><i class="fa fa-clock" style="color: black; margin-right: 15px;" title="History"></i
                     ></a>
                     <% if (tugas.attachment) { %>
                       <a href="javascript:void()" onclick="downloadTugas('<%= tugas.attachment %>')"
-                        ><i class="fa fa-arrow-down" style="color: black;" title="Download Tugas"></i
+                        ><i class="fa fa-arrow-down" style="color: black; margin-right: 15px;" title="Download Tugas"></i
                       ></a>
                     <% } %>
                     <% if (role == 'guru') { %>
@@ -83,15 +83,15 @@
 
         <!-- Table past tugas -->
         <div class="card card-default card-outline">
-          <h4 class="text mb-1 pb-2 ml-4 mt-3">Tugas Berlalu</h4>
+          <h4 class="text mb-1 pb-2 ml-4 mt-4">Tugas Berlalu</h4>
           <div class="card-body">
             <table id="tbl-past-tugas" class="table table-bordered table-striped">
               <thead>
                 <tr>
                   <th>Nama</th>
                   <th>Deskripsi Tugas</th>
-                  <th>Deadline</th>
-                  <th>Action</th>
+                  <th>Batas Waktu</th>
+                  <th>Aksi</th>
                 </tr>
               </thead>
               <tbody>
@@ -102,11 +102,11 @@
                   <td><%= moment(tugas.deadline).format('dddd, MMMM Do YYYY, h:mm') %></td>
                   <td>
                     <a href="javascript:void()" onclick="submissionHistory('<%= tugas.tugas_id %>')"
-                      ><i class="fa fa-clock" style="color: black;" title="History"></i
+                      ><i class="fa fa-clock" style="color: black; margin-right: 15px;" title="History"></i
                     ></a>
                     <% if (tugas.attachment) { %>
                       <a href="javascript:void()" onclick="downloadTugas('<%= tugas.attachment %>')"
-                        ><i class="fa fa-arrow-down" style="color: black;" title="Download Tugas"></i
+                        ><i class="fa fa-arrow-down" style="color: black; margin-right: 15px;" title="Download Tugas"></i
                       ></a>
                     <% } %>
                     <% if (role == 'guru') { %>
@@ -157,7 +157,7 @@
             <textarea class="form-control" id="deskripsi"></textarea>
           </div>
           <div class="form-group">
-            <label for="deadline" class="col-form-label">Deadline</label>
+            <label for="deadline" class="col-form-label">Batas Waktu</label>
             <input type="text" class="form-control" name="deadlineTugas" id="deadline" />
           </div>
           <div class="form-group">
@@ -168,9 +168,9 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">
-          Cancel
+          Kembali
         </button>
-        <button type="submit" class="btn btn-primary">Buat</button>
+        <button type="submit" class="btn btn-default" style="background-color: antiquewhite">Buat</button>
         
       </div>
       </form>
@@ -182,7 +182,7 @@
   <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title">Upload Tugas</h5>
+        <h5 class="modal-title">Kumpul Tugas</h5>
         <button
           type="close"
           class="close"
@@ -207,9 +207,9 @@
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-dismiss="modal">
-            Cancel
+            Kembali
           </button>
-          <button type="submit" class="btn btn-primary">Submit</button>
+          <button type="submit" class="btn btn-default" style="background-color: antiquewhite">Unggah</button>
         </form>
       </div>
     </div>
@@ -238,7 +238,7 @@
               <th>Waktu Pengumpulan</th>
               <th>Deskripsi</th>
               <th>Dikumpul oleh</th>
-              <th>Action</th>
+              <th>Aksi</th>
             </tr>
           </thead>
           <tbody id="history_submission_body">
