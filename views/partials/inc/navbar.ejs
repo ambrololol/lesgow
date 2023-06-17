@@ -8,16 +8,18 @@
   </ul>
 
   <!-- SEARCH FORM -->
-  <form class="form-inline ml-3">
+  <form class="form-inline ml-3" action="/search/" method="get">
     <div class="input-group input-group-sm">
       <input
         class="form-control form-control-navbar"
         type="search"
+        id="searchQuery"
+        name="kelas_name"
         placeholder="Cari"
         aria-label="Search"
       />
       <div class="input-group-append">
-        <button class="btn btn-navbar" type="submit">
+        <button class="btn btn-navbar" id="searchButton" type="submit">
           <i class="fas fa-search"></i>
         </button>
       </div>
@@ -45,14 +47,14 @@
         <i class="far fa-user"></i>
       </a>
       <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
-        <a href="/profile" class="dropdown-item"> Profil </a>
+        <a href="/profile" class="dropdown-item"> Profile </a>
         <div class="dropdown-divider"></div>
         <a href="/auth/change_password" class="dropdown-item">
-          Ubah Kata Sandi
+          Change Password
         </a>
         <div class="dropdown-divider"></div>
         <a href="/auth/logout" class="dropdown-item badge-secondary">
-          Keluar
+          Logout
         </a>
       </div>
     </li>

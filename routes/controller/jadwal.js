@@ -3,7 +3,8 @@ const router = express.Router();
 const model_kelas = require('../../models/model_kelas');
 const model_jadwal = require('../../models/model_jadwal');
 const model_tr_kelas_member = require('../../models/model_tr_kelas_member')
-const moment = require('moment')
+const moment = require('moment');
+require('moment/locale/id');
 
 router.get('/:kelas_code', async function(req, res, next){
     let kelas_code = req.params.kelas_code
@@ -29,12 +30,18 @@ router.get('/:kelas_code', async function(req, res, next){
         user_id: user_id
     })
     console.log(db_role[0].role_user,"ROLE")
-    var role = db_role[0].role_user
+    var role = db_role[0].role_user;
+
+    var upcomingSchedules = resjadwal_db.filter(data => moment(data.tanggal).isAfter(moment()));
+    var pastSchedules = resjadwal_db.filter(data => moment(data.tanggal).isBefore(moment()));
+
     res.render('app/jadwal', {
         user: req.user,
         page: 'jadwal',
         kelas: kelas,
         jadwal: resjadwal_db,
+        upcomingSchedules: upcomingSchedules,
+        pastSchedules: pastSchedules,
         moment: moment,
         role: role,
         currentPage: '/jadwal'
@@ -97,9 +104,14 @@ router.post('/:kelas_code/delete/:jadwal_id', async function(req, res, next){
     return res.redirect('back');
 });
 
-router.post('/:kelas_code/update/:id',async function(req, res, next){
+router.post('/:kelas_code/update/:jadwal_id',async function(req, res, next){
     let kelas_code = req.params.kelas_code
-    let jadwal_id = req.params.id
+    let jadwal_id = req.params.jadwal_id
+    let edit_tanggal = req.body.edit_tanggal
+    let edit_desc = req.body.edit_desc
+    let edit_ctype = req.body.edit_ctype
+    let edit_location = req.body.edit_location
+
     var [res_db, err_db] = await model_kelas.get_kelas_by_code({
         kelas_code: kelas_code
     })
@@ -108,20 +120,17 @@ router.post('/:kelas_code/update/:id',async function(req, res, next){
     var [res_jadwal, err_jadwal] = await model_jadwal.get_jadwal_by_id({
         jadwal_id: jadwal_id
     })
-    let body = req.body
+    
+    var jadwalById = res_jadwal[0]
+    console.log(jadwalById)
 
-    var [res_update_jadwal, err_update_jadwal] = await model_jadwal.update_jadwal({
-        tanggal: body.tanggal,
-        class_type: body.class_type_edit,
-        description: body.description_edit,
-        class_location: body.class_location_edit,
-        kelas_id: kelas_id,
-        jadwal_id: res_jadwal[0].jadwal_id
-    })
-    if(err_update_jadwal){
-        console.log(err_update_jadwal);
-    }
-    console.log(res_update_jadwal)
+    var [res_update, err_update] = await model_jadwal.update_jadwal({
+        tanggal: edit_tanggal,
+        description: edit_desc,
+        class_type: edit_ctype,
+        class_location: edit_location,
+        jadwal_id: jadwal_id
+      });
 
     return res.status(200).send({
         status: "SUCCESS",

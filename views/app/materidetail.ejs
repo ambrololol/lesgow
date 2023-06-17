@@ -4,7 +4,7 @@
   <div class="container-fluid">
     <div class="row mb-2">
       <div class="col-sm-6">
-        <h1 class="m-0 text-dark">Materi</h1>
+        <h1 class="m-0 text-dark">Detail Materi</h1>
       </div>
     </div>
     <!-- /.row -->
@@ -14,37 +14,56 @@
 
 <section class="content">
   <div class="container-fluid">
-    <% res_materi.forEach(materi => { %>
+    <% var materi = res_materi[0] %>
     <div class="card card-default">
       <!-- header -->
       <div class="card-header">
-        <h3 class="card-title text-muted">
-          Posted by: <%= materi.posted_by %>
-        </h3>
+        <div style="display: flex; justify-content: space-between;">
+          <h3 class="card-title text-muted">
+            Posted by: <%= materi.username %>
+          </h3>
+          <form id="edit_materi_form">
+            <div id="edit_materi_1">
+              <a href="javascript:void()" onclick="EditMateriToggle()"
+                ><i class="fa fa-pen" title="Edit Materi"></i
+              ></a>
+            </div>
+            <div id="edit_materi_2" style="display: none;">
+              <button type="button" class="btn btn-secondary"  onclick="EditMateriToggle()">Cancel</button>
+              <button type="submit" class="btn btn-primary">Save</button>
+            </div>
+        </div>
       </div>
       <!-- body -->
       <div class="card-body">
         <div class="col-12">
-          <h4><%= materi.judul %></h4>
+          <h4 id="judul_materi"><%= materi.judul %></h4>
+          
+            <input type="hidden" id="id_edit_materi" name="id_edit_materi" value="<%= materi.materi_id %>">
+            <input type="text" class="form-control" name="edit_judul_materi" id="edit_judul_materi" style="display: none;" value="<%= materi.judul %>">
           <div class="tab-custom-content">
-            <p class="lead mb-0"><%= materi.description %></p>
+            <p  id="deskripsi_materi" class="lead mb-0"><%= materi.description %></p>
+            <textarea name="edit_deskripsi_materi" id="edit_deskripsi_materi" rows="4" class="form-control" style="display:none;"><%= materi.description %></textarea>
+          </form>
           </div>
         </div>
       </div>
       <!-- ATTACHMENT HOLDER -->
       <div class="card-footer">
-        <a href="javascript:void(0)" class="btn btn-default">
-          <div class="col-12">
-            <div
-              class="justify-content-around"
-              style="display: flex; align-items: center"
-            >
-              <i class="fas fa-file"></i>
-              <div class="p-2">Nama Attachment</div>
-              <i class="fas fa-arrow-alt-circle-down"></i>
+        <% res_attachment.forEach(obj => { %>
+          <a href="/attachment/materi/<%= obj.attachment %>" class="btn btn-default" target="_blank">
+            <div class="col-12">
+              <div
+                class="justify-content-around"
+                style="display: flex; align-items: center"
+              >
+                <i class="fas fa-file"></i>
+                <div class="p-2"><%= obj.attachment %></div>
+                <i class="fas fa-arrow-alt-circle-down"></i>
+              </div>
             </div>
-          </div>
-        </a>
+          </a>
+        <% }) %>
       </div>
     </div>
 
@@ -53,90 +72,224 @@
     <div class="card card-default">
       <div class="card-body pad">
         <div class="mb-3">
-          <textarea
-            class="textarea"
+          <form id="post-comment">
+            <div id="replyTo" style="display: none; justify-content: space-between; margin-bottom: 15px;">
+              <p style="color: blue;">Reply to: <span id="receiver-comment"></span></p>
+              <button id="cancelReply" class="btn btn-secondary">Cancel</button>
+            </div>
+            <input type="hidden" id="parent_comment_id" name="parent_comment_id" value="">
+            <input type="hidden" id="super_parent_comment_id" name="super_parent_comment_id" value="">
+            <textarea
             placeholder="Write something here.."
+            class="form-control"
+            id="diskusi"
+            name="diskusi"
             style="
               width: 100%;
-              height: 200px;
+              height: 130px;
               font-size: 14px;
               line-height: 18px;
               border: 1px solid #dddddd;
               padding: 10px;
             "
           ></textarea>
+          <div style="display: flex; justify-content: space-between; margin-top: 15px;">
+            <input type="file" class="form-file-control" id="attachment-comment">
+            <button class="btn btn-primary" type="submit">Post Comment</button>
+          </div>
+        </form>
         </div>
-        <div class="row">
-          <div class="col">
-            <!-- FIRST COMMENT -->
-            <div class="d-flex flex-start">
-              <img
-                src="/image/default_photo.jpg"
-                alt="Avatar"
-                class="rounded-circle shadow-1-strong me-3"
-                width="65"
-                height="65"
-              />
-              <div class="flex-grow-1 flex-shrink-1">
-                <div>
-                  <div
-                    class="d-flex justify-content-between align-items-center"
-                  >
-                    <p class="mb-1">
-                      <%= user.username %>
-                      <span class="small">- 30 menit yang lalu</span>
-                    </p>
-                    <a href="#"
-                      ><i class="fas fa-reply fa-xs"></i
-                      ><span class="small">Reply</span></a
-                    >
-                  </div>
-                  <p class="small mb-0 ml-1">
-                    ini contohnya komen, kamu jangan komen, saya cape
-                  </p>
-                </div>
-
-                <!-- NESTED COMMENT -->
-                <div class="d-flex flex-start mt-4">
-                  <a class="me-3" href="#">
-                    <img
-                      class="rounded-circle shadow-1-strong"
-                      src="https://mdbcdn.b-cdn.net/img/Photos/Avatars/img%20(11).webp"
-                      alt="avatar"
-                      width="65"
-                      height="65"
-                    />
-                  </a>
+        <div id="comment-container">
+          <% root_comment.forEach(comment => { %>
+            <div class="row mt-4">
+              <div class="col">
+                <!-- FIRST COMMENT -->
+                <div class="d-flex flex-start">
+                  <img
+                    src="/image/<%= comment.photo_path %>"
+                    alt="Avatar"
+                    class="rounded-circle shadow-1-strong me-3"
+                    width="65"
+                    height="65"
+                    style="margin-right:10px"
+                  />
                   <div class="flex-grow-1 flex-shrink-1">
                     <div>
                       <div
                         class="d-flex justify-content-between align-items-center"
                       >
                         <p class="mb-1">
-                          Simona Disa <span class="small">- 3 hours ago</span>
+                          <%= comment.username %>
+                          <span class="small">- 30 menit yang lalu</span>
                         </p>
-                        <a href="#"
+                        <a href="javascript:void()" onclick="replyToComment('<%= comment.username %>','<%= comment.comment_id %>')"
                           ><i class="fas fa-reply fa-xs"></i
                           ><span class="small">Reply</span></a
                         >
                       </div>
-                      <p class="small mb-0">
-                        letters, as opposed to using 'Content here, content
-                        here', making it look like readable English.
+                      <p class="small ml-1 mb-2">
+                        <%= comment.diskusi %>
                       </p>
+                      <% if (comment.attachment) { %>
+                        <a href="/attachment/comment/<%= comment.attachment %>" class="btn btn-default" target="_blank">
+                          <div class="col-12">
+                            <div
+                              class="justify-content-around"
+                              style="display: flex; align-items: center"
+                            >
+                              <i class="fas fa-file"></i>
+                              <div class="p-2"><%= comment.attachment %></div>
+                              <i class="fas fa-arrow-alt-circle-down"></i>
+                            </div>
+                          </div>
+                        </a>
+                      <% } %>
                     </div>
+    
+                    <% if (nested_comment[comment.comment_id]) { %>
+                     <% var array_nested_comment = nested_comment[comment.comment_id] %>
+                     <% array_nested_comment.forEach(obj => { %>
+                      <!-- NESTED COMMENT -->
+                    <div class="d-flex flex-start mt-2">
+                      <a class="me-3" href="#">
+                        <img
+                          class="rounded-circle shadow-1-strong"
+                          src="/image/<%= obj.photo_path %>"
+                          alt="avatar"
+                          width="65"
+                          height="65"
+                          style="margin-right:10px"
+                        />
+                      </a>
+                      <div class="flex-grow-1 flex-shrink-1">
+                        <div>
+                          <div
+                            class="d-flex justify-content-between align-items-center"
+                          >
+                            <p class="mb-1">
+                              <%= obj.username %> > <%= obj.reply_to_username %> <span class="small">- 3 hours ago</span>
+                            </p>
+                            <a href="javascript:void()" onclick="replyToComment('<%= obj.username %>','<%= obj.comment_id %>','<%= obj.super_parent_comment_id %>')"
+                              ><i class="fas fa-reply fa-xs"></i
+                              ><span class="small">Reply</span></a
+                            >
+                          </div>
+                          <p class="small mb-2">
+                            <%= obj.diskusi %>
+                          </p>
+                          <% if (obj.attachment) { %>
+                            <a href="/attachment/comment/<%= obj.attachment %>" class="btn btn-default" target="_blank">
+                              <div class="col-12">
+                                <div
+                                  class="justify-content-around"
+                                  style="display: flex; align-items: center"
+                                >
+                                  <i class="fas fa-file"></i>
+                                  <div class="p-2"><%= obj.attachment %></div>
+                                  <i class="fas fa-arrow-alt-circle-down"></i>
+                                </div>
+                              </div>
+                            </a>
+                          <% } %>
+                        </div>
+                      </div>
+                    </div>
+                    <!-- NESTED COMMENT END -->
+                     <% }) %>
+                    <% } %>
                   </div>
                 </div>
-                <!-- NESTED COMMENT END -->
+                <!-- FIRST COMMENT END -->
               </div>
             </div>
-            <!-- FIRST COMMENT END -->
-          </div>
+          <% }) %>
+
         </div>
       </div>
     </div>
-
-    <% }) %>
   </div>
 </section>
 <%- include('../partials/footer') %>
+<script>
+  function EditMateriToggle(){
+    if($("#edit_judul_materi").css("display") == 'none'){
+      $("#judul_materi").css("display", "none")
+      $("#edit_judul_materi").css("display", "block")
+    }else{
+      $("#judul_materi").css("display", "block")
+      $("#edit_judul_materi").css("display", "none")
+    }
+
+    if($("#edit_deskripsi_materi").css("display") == 'none'){
+      $("#deskripsi_materi").css("display", "none")
+      $("#edit_deskripsi_materi").css("display", "block")
+    }else{
+      $("#deskripsi_materi").css("display", "block")
+      $("#edit_deskripsi_materi").css("display", "none")
+    }
+
+    if($("#edit_materi_2").css("display") == 'none'){
+      $("#edit_materi_2").css("display", "block")
+      $("#edit_materi_1").css("display", "none")
+      
+    }else{
+      $("#edit_materi_2").css("display", "none")
+      $("#edit_materi_1").css("display", "block")
+    }
+  }
+
+  $("#edit_materi_form").submit(function (e) {
+    e.preventDefault()
+      const data = new FormData(event.target);
+      const value = Object.fromEntries(data.entries());
+      
+      $.ajax({
+        type: "POST",
+        url: "/materi/<%= kelas_code %>/detail/<%= materi_id %>/edit",
+        data: value,
+        success: function(res){
+          console.log(res)
+          alert(res.message)
+          if(res.status == 'SUCCESS') window.location.href = "/materi/<%= kelas_code %>/detail/<%= materi_id %>"
+        }
+      });
+    })
+
+    $("#post-comment").submit(function (e) {
+      e.preventDefault()
+      var formData = new FormData();
+      if($("#super_parent_comment_id").val()) formData.append("super_parent_comment_id",$("#super_parent_comment_id").val())
+      if($("#parent_comment_id").val()) formData.append("parent_comment_id",$("#parent_comment_id").val())
+      formData.append("diskusi",$("#diskusi").val())
+      formData.append("upload_attachment_comment",$("#attachment-comment")[0].files[0])
+      $.ajax({
+          type: "POST",
+          enctype: "multipart/form-data",
+          processData: false,
+          contentType: false,
+          cache: false,
+          url: '/materi/<%= kelas_code %>/detail/<%= materi_id %>/post_comment',
+          data: formData,
+          success: function(res){
+            console.log(res)
+            alert(res.message)
+            if(res.status == 'SUCCESS'){
+              window.location.href = '/materi/<%= kelas_code %>/detail/<%= materi_id %>'
+            }
+          }
+        });
+    })
+
+    $("#cancelReply").click(function(){
+      $("#parent_comment_id").val('')
+      $("#super_parent_comment_id").val('')
+      $("#replyTo").hide()
+    })
+
+    function replyToComment(username_to_reply, parent_comment_id, super_parent_comment_id){
+      $("#receiver-comment").html(username_to_reply)
+      $("#parent_comment_id").val(parent_comment_id)
+      $("#super_parent_comment_id").val(super_parent_comment_id ? super_parent_comment_id : parent_comment_id)
+      $("#replyTo").show()
+    }
+  </script>

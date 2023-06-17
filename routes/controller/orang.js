@@ -82,6 +82,13 @@ router.post('/:kelas_code/remove/:user_id', async function(req, res, next){
         }
     }
 
+    if(!any_teacher && res_member.length == 0){
+        return res.status(200).send({
+            status: "SUCCESS",
+            message: "Berhasil remove member"
+        })
+    }
+
     if(!any_teacher){
         var [res_db_delete, err_db_delete] = await model_tr_kelas_member.edit_role({
             role_user: 'guru',

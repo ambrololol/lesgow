@@ -71,6 +71,9 @@ router.get('/:kelas_code', async function(req, res, next){
     var [res_tugas, err_tugas] = await model_tugas.get_all_tugas_by_kelas({
         kelas_id: kelas_id
     })
+
+    var upcomingTugas = res_tugas.filter(data => moment(data.deadline).isAfter(moment()));
+    var pastTugas = res_tugas.filter(data => moment(data.deadline).isBefore(moment()));
     
     res.render('app/tugas', {
         user: req.user,
@@ -79,6 +82,8 @@ router.get('/:kelas_code', async function(req, res, next){
         role: role,
         kelas_code: kelas_code,
         tugas_arr: res_tugas,
+        upcomingTugas: upcomingTugas,
+        pastTugas: pastTugas,
         moment: moment,
         currentPage: '/tugas'
     });
