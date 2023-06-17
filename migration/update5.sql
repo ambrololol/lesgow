@@ -1,0 +1,1 @@
+ALTER TABLE `ms_comment` ADD `super_parent_comment_id` INT NOT NULL AFTER `parent_comment_id`;

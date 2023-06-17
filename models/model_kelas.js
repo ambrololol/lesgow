@@ -70,5 +70,19 @@ module.exports = {
             await mysql.endPool()
             return [null, error]
         }
+    },
+    cari_kelas: async function(data){
+        try {
+            await mysql.connectAsync()
+            var sql = "SELECT * FROM ms_kelas WHERE kelas_name LIKE ?";
+            console.log(data);
+            var [result, cache] = await mysql.executeAsync(sql, [data.kelas_name])
+            await mysql.endPool()
+            return [result, null]
+        } catch {
+            console.log(error)
+            await mysql.endPool()
+            return [null, error]
+        }
     }
 }

@@ -1,0 +1,1 @@
+ALTER TABLE ms_comment MODIFY COLUMN super_parent_comment_id int NULL

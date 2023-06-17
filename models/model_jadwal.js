@@ -60,8 +60,8 @@ module.exports = {
     update_jadwal: async function(data){
         try{
             await mysql.connectAsync()
-            var sql = "UPDATE ms_jadwal SET tanggal = ?, class_type = ?, description = ?, class_location = ? WHERE kelas_id = ? AND jadwal_id = ?"
-            var [result, cache] = await mysql.executeAsync(sql, [data.tanggal, data.class_type, data.description, data.class_location,data.kelas_id, data.jadwal_id])
+            var sql = "UPDATE ms_jadwal SET tanggal = ?, class_type = ?, description = ?, class_location = ? WHERE jadwal_id = ?"
+            var [result, cache] = await mysql.executeAsync(sql, [data.tanggal, data.class_type, data.description, data.class_location, data.jadwal_id])
             await mysql.endPool()
             return [result, null]
         } catch {

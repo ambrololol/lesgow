@@ -8,7 +8,7 @@
       </div>
       <div class="col-sm-3 ml-auto">
         <button
-          class="btn btn-default"
+          class="btn btn-light elevation-1"
           data-toggle="modal"
           data-target="#modal-buat-kelas"
           style="background-color: antiquewhite"
@@ -17,7 +17,7 @@
         </button>
         <big> atau </big>
         <button
-          class="btn btn-default"
+          class="btn btn-light elevation-1"
           data-toggle="modal"
           data-target="#modal-gabung-kelas"
           style="background-color: antiquewhite"
@@ -46,12 +46,14 @@
         <% kelas.forEach(function(data) { %>   
         <div class="my-3 pr-4 pl-0 col-12 col-sm-6 col-md-6 col-lg-4">
           <div class="card card-widget widget-user">
-            <div class="widget-user-header bg-info">
+            <div class="widget-user-header bg-dark">
               <div class="widget-user-image">
                 <img
                   class="img-circle elevation-2"
-                  src="/dist/img/avatar2.png"
-                  alt=""
+                  src="/image/<%= user.photo_path %>"
+                  alt="Avatar"
+                  width="50"
+                  height="50"
                 />
               </div>
             </div>
@@ -68,12 +70,8 @@
                   >Masuk kelas</a
                   >
                 </div>
-                <p class="card-text">
-                  <% if (data.kelas_description.length > 100) { %>
-                    <%= data.kelas_description.slice(0, 30) + '...' %>
-                  <% } else { %>
-                    <%= data.kelas_description %>
-                  <% } %>
+                <p class="lead mb-0 float-right">
+                  Kode Kelas : <%= data.kelas_code %>
                 </p>
             </div>
           </div>
@@ -124,9 +122,9 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">
-          Cancel
+          Batal
         </button>
-        <button type="submit" class="btn btn-default" style="background-color: antiquewhite">Buat</button>
+        <button type="submit" class="btn btn-light" style="background-color: antiquewhite;">Buat</button>
       </div>
     </form>
     </div>
@@ -161,9 +159,9 @@
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-dismiss="modal">
-            Cancel
+            Batal
           </button>
-          <button type="submit" class="btn btn-default" style="background-color: antiquewhite">Gabung</button>
+          <button type="submit" class="btn btn-light" style="background-color: antiquewhite;">Gabung</button>
         </div>
       </form>
     </div>

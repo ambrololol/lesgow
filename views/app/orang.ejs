@@ -48,29 +48,56 @@
                     href="javascript:void()"
                     onclick="deletePeople('<%= orang.user_id %>')"
                     style="margin-right: 10px"
-                    ><i class="fa fa-trash"  style="color: black;" title="Hapus dari kelas"></i
+                    ><i
+                      class="fa fa-trash"
+                      style="color: black"
+                      title="Hapus dari kelas"
+                    ></i
                   ></a>
                   <% } else { %>
                   <a
                     href="javascript:void()"
                     onclick="deletePeople('<%= orang.user_id %>')"
                     style="margin-right: 10px"
-                    ><i class="fa fa-stop"  style="color: black;" title="Keluar dari kelas"></i
+                    ><i
+                      class="fa fa-arrow-alt-circle-right"
+                      style="color: black"
+                      title="Keluar dari kelas"
+                    ></i
                   ></a>
                   <% } %> <% if (orang.role_user == 'murid') { %>
                   <a
                     href="javascript:void()"
                     onclick="setAs('guru', '<%= orang.user_id %>')"
-                    ><i class="fa fa-user"  style="color: black;" title="Set as teacher"></i
+                    ><i
+                      class="fa fa-user"
+                      style="color: black"
+                      title="Set as teacher"
+                    ></i
                   ></a>
                   <% } else if(orang.user_id != user.user_id) { %>
                   <a
                     href="javascript:void()"
                     onclick="setAs('murid', '<%= orang.user_id %>')"
-                    ><i class="fa fa-book" title="Set as student"></i
+                    ><i
+                      class="fa fa-book"
+                      style="color: black"
+                      title="Set as student"
+                    ></i
                   ></a>
                   <% } %>
                 </div>
+                <% } else if (user.user_id == orang.user_id) { %>
+                <a
+                  href="javascript:void()"
+                  onclick="deletePeople('<%= orang.user_id %>')"
+                  style="margin-right: 10px"
+                  ><i
+                    class="fa fa-arrow-alt-circle-right"
+                    style="color: black"
+                    title="Keluar dari kelas"
+                  ></i
+                ></a>
                 <% } %>
               </div>
             </div>

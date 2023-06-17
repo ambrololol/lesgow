@@ -1,10 +1,23 @@
 <%- include('../partials/header') %>
+
+<style>
+  .event-jadwal {
+  background-color: #C2DEDC;
+  color: white;
+}
+
+.event-tugas {
+  background-color: #FD8A8A;
+  color: black;
+}
+
+</style>
 <!-- Content Header (Page header) -->
 <div class="content-header">
     <div class="container-fluid">
       <div class="row mb-2">
         <div class="col-sm-6">
-          <h1 class="m-0 text-dark">Dashboard <small> / <%= kelas.kelas_code %></small></h1>
+          <h1 class="m-0 text-dark">Dashboard</h1>
         </div>
       </div>
       <!-- /.row -->
@@ -17,6 +30,16 @@
   <section class="content">
   <div class="row">
     <!-- Left col -->
+    <section class="col-lg-12">
+      <div class="card">
+        <div class="card-header">
+          <h2 class="card-title">Nama Kelas: <%= kelas.kelas_name %></h2>
+        </div>
+        <div class="card-body">
+            <p class="lead mb-0"><%= kelas.kelas_description %></p>
+        </div>
+      </div>
+    </section>
     <section class="col-lg-6">
       <!-- Materi Card -->
       <div class="card">
@@ -27,7 +50,7 @@
               <i class="nav-icon fas fa-regular fa-book"></i>
               Materi
             </h3>
-            <a href="/materi/<%= kelas.kelas_code %>" style="color: black; text-decoration: underline;">Lihat semua</a>
+            <a href="/materi/<%= kelas_code %>">Lihat semua</a>
           </div>
           <div class="card-tools">
           </div>
@@ -35,16 +58,19 @@
         <!-- Card body -->
         <div class="card-body">
           <ul class="list-group list-group-flush">
-            <li class="list-group-item">
-              <img src="/dist/img/default-150x150.png" alt="Product 1" class="img-square img-size-32 mr-2">
-              Lingkaran
-              <p>Menguasai lingkaran setan</p>
-            </li>
-            <li class="list-group-item">
-              <img src="/dist/img/default-150x150.png" alt="Product 1" class="img-square img-size-32 mr-2">
-              Aljabar
-              <p>Menguasai aljabar penuh kekocakan</p>
-            </li>
+            <% arr_materi.forEach(materi => { %>
+              <li class="list-group-item">
+                <i class="fa fa-paperclip"></i>
+                <%= materi.judul %>
+                <p class="card-text">
+                <% if (materi.description.length > 100) { %>
+                 <%= materi.description.slice(0,100)+'...' %>
+                <% } else { %>
+                  <%= materi.description.slice(0, 100) %>
+                <% } %>
+                </p>
+              </li>
+              <% }) %>
           </ul>
         </div>
         </div>
@@ -58,7 +84,7 @@
             <i class="nav-icon fas fa-regular fa-clipboard"></i>
             Tugas
           </h3>
-          <a href="/tugas/<%= kelas.kelas_code %>" style="color: black; text-decoration: underline;">Lihat semua</a>
+          <a href="/tugas/<%= kelas_code %>">Lihat semua</a>
         </div>
         <div class="card-tools">
         </div>
@@ -66,26 +92,43 @@
       <!-- Card body -->
       <div class="card-body table-responsive p-0">
         <table class="table table-striped table-valign-middle">
-          <thead>
-            <tr>
-              <th>Judul</th>
-              <th>Status</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>Present tense</td>
-              <td>Selesai</td>
-            </tr>
-            <tr>
-              <td>Essay Writing</td>
-              <td>Terlambat</td>
-            </tr>
-            <tr>
-              <td>Story Telling</td>
-              <td>Berlangsung</td>
-            </tr>
-          </tbody>
+          <% if (role == "guru") { %> 
+            <thead>
+              <tr>
+                <th>Judul</th>
+                <th>Deadline</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% arr_tugas.forEach(tugas => { %>
+                <tr>
+                  <td><%= tugas.tugas_name %></td>
+                  <td><%= moment(tugas.deadline).locale('id').format('dddd, Do MMMM YYYY, h:mm A') %></td>
+                </tr>
+                <% }) %>
+              </tbody>
+              <% } else { %>
+                <thead>
+                  <tr>
+                    <th>Judul</th>
+                    <th>Status</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <% arr_tugas.forEach(tugas => { %>
+                    <tr>
+                      <td><%= tugas.tugas_name %></td>
+                      <td>
+                        <% if (history.length == 0) { %>
+                         <span class="badge badge-danger">Belum mengerjakan</span>
+                        <% } else {%>
+                          <span class="badge badge-success">Selesai</span>
+                        <% } %>
+                      </td>
+                    </tr>
+                    <% }) %>
+                  </tbody>
+              <% } %>
         </table>
       </div>
         </div>
@@ -99,7 +142,7 @@
                 <i class="nav-icon fas fa-solid fa-users"></i>
                 Orang
               </h3>
-              <a href="/orang/<%= kelas.kelas_code %>" style="color: black; text-decoration: underline;">Lihat semua</a>
+              <a href="/orang/<%= kelas_code %>">Lihat semua</a>
             </div>
             <div class="card-tools">
             </div>
@@ -107,15 +150,17 @@
           <!-- Card body -->
           <div class="card-body">
             <ul class="list-group list-group-flush">
-              <li class="list-group-item">
-                <img src="/dist/img/default-150x150.png" alt="Product 1" class="img-circle img-size-32 mr-2">
-                Kriadi Bicaksana
-              </li>
-              <li class="list-group-item">
-                <img src="/dist/img/default-150x150.png" alt="Product 1" class="img-circle img-size-32 mr-2">
-                Muhammad Kamrol
-              </li>
-            </ul>
+              <% arr_orang.forEach(orang => { %>
+                <li class="list-group-item">
+                  <img src="/image/<%= orang.photo_path %>" alt="Avatar" class="img-circle img-size-32 mr-2">
+                  <% if (orang.role_user == 'guru') { %>
+                   Guru
+                  <% } else {%>
+                    Murid
+                  <% } %> - <%= orang.username %>
+                </li>
+                <% }) %>
+              </ul>
           </div>
   </section>
 
@@ -127,17 +172,18 @@
         <div class="d-flex justify-content-between">
         <h3 class="card-title">
           <i class="far fa-calendar-alt"></i>
-          Kalendar
+          Calendar
         </h3>
-        <a href="javascript:void(0)" style="color: black; text-decoration: underline;">Lihat semua</a>
+        <h4 class="lead mb-0"><b>Keterangan:</b> -<span class="badge" style="background-color: #C2DEDC;">Jadwal Kelas</span> -<span class="badge" style="background-color: #FD8A8A;">Deadline Tugas</span></h4>
       </div>
         <div class="card-tools">
         </div>
         </div>
         <div class="card-body pt-0">
-          <!-- The calendar (masih mencari plugin kalender) -->
+          <!-- The calendar -->
           <div id="calendar" style="width: 100%"></div>
         </div>
+        
       </div>
 
       <!-- Jadwal card -->
@@ -145,10 +191,10 @@
         <div class="card-header">
           <div class="d-flex justify-content-between">
             <h3 class="card-title">
-              <i class="nav-icon fas fa-solid fa-users"></i>
+              <i class="nav-icon fas fa-solid fa-clock"></i>
               Jadwal
             </h3>
-            <a href="/jadwal/<%= kelas.kelas_code %>" style="color: black; text-decoration: underline;">Lihat semua</a>
+            <a href="/jadwal/<%= kelas_code %>">Lihat semua</a>
           </div>
           <div class="card-tools">
           </div>
@@ -160,21 +206,17 @@
               <tr>
                 <th>Waktu</th>
                 <th>Tipe Kelas</th>
+                <th>Deskripsi</th>
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <td>Selasa, 2:00</td>
-                <td>Offline</td>
-              </tr>
-              <tr>
-                <td>Kamis, 4:00</td>
-                <td>Online</td>
-              </tr>
-              <tr>
-                <td>Jumat, 1:30</td>
-                <td>Offline</td>
-              </tr>
+              <% arr_jadwal.forEach(jadwal => { %>
+                <tr>
+                  <td><%= moment(jadwal.tanggal).locale('id').format('dddd, Do MMMM YYYY, h:mm A') %></td>
+                  <td><%= jadwal.class_type %></td>
+                  <td><%= jadwal.description %></td>
+                </tr>
+                <% }) %>
             </tbody>
           </table>
         </div>
@@ -184,3 +226,36 @@
   </section>
   
     <%- include('../partials/footer') %>
+
+<!-- TO DO LIST TRIADI WICAKGANA -->
+<!-- FULL CALENDAR -->
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    var calendarEl = document.getElementById("calendar");
+    fetch('/dashboard/<%= kelas.kelas_code %>/kalendar')
+    .then(response => response.json())
+    .then(data => {
+      console.log(data)
+      var calendar = new FullCalendar.Calendar(calendarEl, {
+        initialView: "dayGridMonth",
+        events: data,
+        eventContent: function (arg){
+          var eventTitle = arg.event.title;
+          var eventColor = '';
+          if (arg.event.extendedProps.eventType === 'jadwal') {
+            eventColor = 'blue'; // Set the text color for jadwal events
+          } else if (arg.event.extendedProps.eventType === 'tugas') {
+            eventColor = 'red'; // Set the text color for tugas events
+          }
+          return {
+            html: `<div class="fc-content" style="color: ${eventColor};">${eventTitle}</div>`
+          };
+        }
+      });
+      calendar.render();
+    })
+    .catch(error => {
+      console.error(error);
+    });
+  });
+</script>

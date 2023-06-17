@@ -9,7 +9,7 @@
       <div class="col-sm-2 ml-auto">
         <% if (role == "guru") { %>
         <button
-          class="btn btn-default"
+          class="btn btn-light elevation-1"
           data-toggle="modal"
           data-target="#modal-buat-materi"
           style="background-color: antiquewhite"
@@ -44,23 +44,28 @@
                 <h5 class="card-title mb-1" style="font-weight: 500">
                   <%= materi.judul %>
                 </h5>
+                <!-- UNTUK ROLE GURU -->
+                <% if (role == "guru") { %>
+                  <div class="float-right">
+                   <form method="post" action="/materi/<%= kelas_code %>/delete/<%= materi.materi_id %>" id="delete-materi-<%= materi.materi_id %>">
+                     <input type="hidden" value="<%= materi.materi_id %>" name="materi_id">
+                   </form>
+                   <a href="javascript:void(0)" onclick="if(confirm('Hapus Materi Ini?')){$('#delete-materi-<%= materi.materi_id %>').submit()}"><i class="fa fa-trash" style="color: black;" title="Delete Materi"></i></a>
+                  </div>
+                 <% } %>
               </div>
               <div class="card-body">
                 <p class="card-text">
-                  <%= materi.description.slice(0, 180)+'...' %>
+                  <% if (materi.description.length > 180) { %>
+                    <%= materi.description.slice(0, 180)+'...' %>
+                  <% } else { %>
+                    <%= materi.description.slice(0, 180) %>
+                  <% } %>
                 </p>
-                <a href="/materi/<%= kelas_code %>/detail/<%= materi.materi_id %>" class="btn btn-default"  style="background-color: antiquewhite"
+                <a href="/materi/<%= kelas_code %>/detail/<%= materi.materi_id %>" class="btn btn-light" style="background-color: antiquewhite;"
                 >Lihat Materi</a
                 >
-                <!-- UNTUK ROLE GURU -->
-                <% if (role == "guru") { %>
-                 <div class="float-right">
-                  <form method="post" action="/materi/<%= kelas_code %>/delete/<%= materi.materi_id %>" id="delete-materi-<%= materi.materi_id %>">
-                    <input type="hidden" value="<%= materi.materi_id %>" name="materi_id">
-                  </form>
-                  <a href="javascript:void(0)" onclick="if(confirm('Hapus Materi Ini?')){$('#delete-materi-<%= materi.materi_id %>').submit()}"><i class="fa fa-trash"  style="color: black;" title="Delete Materi"></i></a>
-                 </div>
-                <% } %>
+                
               </div>
             </div>
           </div>
@@ -75,7 +80,7 @@
   <div class="modal-dialog modal-dialog-centered modal-xl">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title">Buat Kelas</h5>
+        <h5 class="modal-title">Buat Materi</h5>
         <button
           type="button"
           class="close"
@@ -100,21 +105,21 @@
           </div>
           <div id="attachmentContainer">
             <div class="form-group">
-              <label for="fileMateri" class="col-form-label"
+              <label for="fileMateri1" class="col-form-label"
                 >Attachment (opsional)</label
               >
-              <input type="file" class="form-control" id="fileMateri" name="attachment" />
+              <input type="file" class="form-control" id="fileMateri1" name="attachment" />
             </div>
           </div>
           <!-- BUTTON ROW CONTROL -->
-          <button class="btn btn-default" style="background-color: antiquewhite" id="addRow">Tambah Attachment</button> <button class="btn btn-default"  id="deleteRow">Hapus Attachment</button>
+          <button class="btn btn-primary" id="addRow">Tambah Attachment</button> <button class="btn btn-default" id="deleteRow">Hapus Attachment</button>
           <!-- BUTTON ROW CONTROL -->
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-dismiss="modal">
             Cancel
           </button>
-          <button type="submit" class="btn btn-default"  style="background-color: antiquewhite" >Buat</button>
+          <button type="submit" class="btn btn-light" style="background-color: antiquewhite;">Buat</button>
         </div>
       </form>
       <!-- Form Buat Materi END-->
@@ -125,10 +130,15 @@
 <%- include('../partials/footer') %>
 <script>
   $("#buat_materi").submit(function (e) {
+    e.preventDefault()
     var formData = new FormData();
     formData.append("judul_materi",$("#judulMateri").val())
     formData.append("deskripsi_materi",$("#deskripsiMateri").val())
-    formData.append("upload_materi",$("#fileMateri")[0].files[0])
+    formData.append("upload_materi",$("#fileMateri1")[0].files[0])
+    if($("#fileMateri2").length > 0) formData.append("upload_materi",$("#fileMateri2")[0].files[0])
+    if($("#fileMateri3").length > 0) formData.append("upload_materi",$("#fileMateri3")[0].files[0])
+    if($("#fileMateri4").length > 0) formData.append("upload_materi",$("#fileMateri4")[0].files[0])
+    if($("#fileMateri5").length > 0) formData.append("upload_materi",$("#fileMateri5")[0].files[0])
     $.ajax({
         type: "POST",
         enctype: "multipart/form-data",
@@ -154,13 +164,17 @@
   e.preventDefault();
 
   var container = document.getElementById('attachmentContainer');
+  if(container.children.length == 5){
+    alert("Attachment cannot more than 5")
+    return
+  } 
   var newAttachment = document.createElement('div');
   newAttachment.classList.add('form-group');
   newAttachment.innerHTML =
     '<label for="fileMateri' +
     (container.children.length + 1) +
     '" class="col-form-label">Attachment (opsional)</label>' +
-    '<input type="file" class="form-control" name="attachment[]" />';
+    '<input type="file" class="form-control" name="attachment[]" id="fileMateri'+(container.children.length + 1)+'"/>';
   container.appendChild(newAttachment);
 });
 </script> 

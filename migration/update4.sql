@@ -1,0 +1,1 @@
+ALTER TABLE ms_jadwal DROP COLUMN duration_hour
