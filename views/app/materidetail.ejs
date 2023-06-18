@@ -23,6 +23,7 @@
             Dibuat oleh: <%= materi.username %>
           </h3>
           <form id="edit_materi_form">
+            <% if (role == 'guru') { %>
             <div id="edit_materi_1">
               <a href="javascript:void()" onclick="EditMateriToggle()"
                 ><i class="fa fa-pen" style= "color: black" title="Edit Materi"></i
@@ -32,6 +33,7 @@
               <button type="button" class="btn btn-secondary"  onclick="EditMateriToggle()">Kembali</button>
               <button type="submit" class="btn btn-default" style="background-color: antiquewhite">Simpan</button>
             </div>
+            <% } %>
         </div>
       </div>
       <!-- body -->
@@ -75,7 +77,7 @@
           <form id="post-comment">
             <div id="replyTo" style="display: none; justify-content: space-between; margin-bottom: 15px;">
               <p style="color: black;">Balas ke: <span id="receiver-comment"></span></p>
-              <button id="cancelReply" class="btn btn-secondary">Cancel</button>
+              <button id="cancelReply" class="btn btn-secondary">Kembali</button>
             </div>
             <input type="hidden" id="parent_comment_id" name="parent_comment_id" value="">
             <input type="hidden" id="super_parent_comment_id" name="super_parent_comment_id" value="">
