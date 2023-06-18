@@ -5,6 +5,7 @@ const model_kelas = require('../../models/model_kelas')
 const ShortUniqueId = require('short-unique-id');
 const { log } = require('console');
 const model_tr_kelas_member = require('../../models/model_tr_kelas_member');
+const model_user = require('../../models/model_user');
 
 router.get('/', async function(req, res, next){
     var user_id = req.user.user_id
@@ -36,7 +37,7 @@ router.post('/', async function(req, res, next){
     let code_gen = new ShortUniqueId({ length: 6 });
     let kelas_code = code_gen()
     console.log(kelas_code)
-    let kelas_photo = 'group_default.jpg'
+    let kelas_photo = req.user.photo_path
     let kelas_cover = 'cover_default.jpg'
     body.kelas_code = kelas_code
     body.kelas_photo = kelas_photo
