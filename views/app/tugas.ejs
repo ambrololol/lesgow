@@ -14,7 +14,9 @@
 <!-- /.content-header -->
 <br />
 <!-- Main Content -->
+
 <section class="content">
+  
   <div class="container-fluid">
     <div class="row">
       <div class="col-md-12">
@@ -220,7 +222,7 @@
   <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title">Submission History</h5>
+        <h5 class="modal-title">Riwayat Pengumpulan Tugas</h5>
         <button
           type="close"
           class="close"
@@ -248,7 +250,7 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">
-          Close
+          Kembali
         </button>
       </div>
     </div>
@@ -334,7 +336,7 @@
               <td>${data.username}</td>
               <td>
                 <a onclick="downloadSubmission('${data.attachment}')"
-                      ><i class="fa fa-arrow-down" title="Download"></i
+                      ><i class="fa fa-arrow-down" style="margin-right: 15px" title="Download" ></i
                     ></a>
                 <a onclick="deleteSubmission('${data.tugas_detail_id}')"
                       ><i class="fa fa-trash" title="Delete"></i
