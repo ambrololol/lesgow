@@ -127,7 +127,7 @@
                           ><span class="small" style="font-size: 1.2em;"> Balas</span></a
                         >
                       </div>
-                      <p class="small ml-1 mb-2">
+                      <p class="small ml-1 mb-4">
                         <%= comment.diskusi %>
                       </p>
                       <% if (comment.attachment) { %>
@@ -169,12 +169,13 @@
                             <p class="mb-1">
                               <%= obj.username %> > <%= obj.reply_to_username %> <span class="small">- 3 hours ago</span>
                             </p>
+                            
                             <a href="javascript:void()" onclick="replyToComment('<%= obj.username %>','<%= obj.comment_id %>','<%= obj.super_parent_comment_id %>')"
                               ><i class="fas fa-reply fa-sm"></i
                                 ><span class="small" style="font-size: 1.2em;"> Balas</span></a
                             >
                           </div>
-                          <p class="small mb-2">
+                          <p class="small mb-5">
                             <%= obj.diskusi %>
                           </p>
                           <% if (obj.attachment) { %>
