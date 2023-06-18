@@ -33,11 +33,35 @@
     <section class="col-lg-12">
       <div class="card">
         <div class="card-header">
-          <h2 class="card-title">Nama Kelas: <%= kelas.kelas_name %></h2>
-        </div>
-        <div class="card-body">
-            <p class="lead mb-0"><%= kelas.kelas_description %></p>
-        </div>
+          <div style="display: flex; justify-content: space-between;" >
+          <h4 class="card-title text-muted">Keterangan Kelas</h4>
+          <form id="edit_kelas_form">
+            <% if (role == 'guru') { %>
+              <div id="edit_kelas_1">
+              <a href="javascript:void(0)" onclick="EditKelasToggle()">
+                <i class="fa fa-pen" style="color: black;" title="Edit Kelas"></i>
+              </a>
+            </div>
+             <div id="edit_kelas_2" style="display: none;">
+              <button type="button" class="btn btn-secondary" onclick="EditKelasToggle()">Kembali</button>
+              <button type="submit" class="btn btn-light" style="background-color: antiquewhite;">Simpan</button>
+            </div>
+            <% } %>
+          </div>
+          </div>
+          
+          <!-- body -->
+          <div class="card-body">
+            <h4 id="nama_kelas">Nama Kelas: <%= kelas.kelas_name %></h4>
+            
+            <input type="hidden" id="id_edit_kelas" name="id_edit_kelas" value="<%= kelas.kelas_id %>">
+            <input type="text" class="form-control" name="edit_nama_kelas" id="edit_nama_kelas" style="display: none;" value="<%= kelas.kelas_name %>">
+            <div class="tab-custom-content">
+              <p id="kelas_desc" class="lead mb-0"><%= kelas.kelas_description %></p>
+              <textarea name="edit_deskripsi_kelas" id="edit_deskripsi_kelas" rows="4" class="form-control" style="display: none;"><%= kelas.kelas_description %></textarea>
+            </form>
+            </div>
+          </div>
       </div>
     </section>
     <section class="col-lg-6">
@@ -258,4 +282,47 @@
       console.error(error);
     });
   });
+</script>
+<script>
+  function EditKelasToggle(){
+    if($("#edit_nama_kelas").css("display") == 'none'){
+      $("#nama_kelas").css("display", "none")
+      $("#edit_nama_kelas").css("display", "block")
+    }else{
+      $("#nama_kelas").css("display", "block")
+      $("#edit_nama_kelas").css("display", "none")
+    }
+
+    if($("#edit_deskripsi_kelas").css("display") == 'none'){
+      $("#kelas_desc").css("display", "none")
+      $("#edit_deskripsi_kelas").css("display", "block")
+    }else{
+      $("#kelas_desc").css("display", "block")
+      $("#edit_deskripsi_kelas").css("display", "none")
+    }
+
+    if($("#edit_kelas_2").css("display") == 'none'){
+      $("#edit_kelas_2").css("display", "block")
+      $("#edit_kelas_1").css("display", "none")
+    }else{
+      $("#edit_kelas_2").css("display", "none")
+      $("#edit_kelas_1").css("display", "block")
+    }
+  }
+
+  $("#edit_kelas_form").submit(function(e){
+    e.preventDefault()
+    const data = new FormData(event.target)
+    const value = Object.fromEntries(data.entries());
+    $.ajax({
+        type: "POST",
+        url: "/dashboard/<%= kelas_code %>/edit",
+        data: value,
+        success: function(res){
+          console.log(res)
+          alert(res.message)
+          if(res.status == 'SUCCESS') window.location.href = "/dashboard/<%= kelas_code %>"
+        }
+      });
+  })
 </script>
