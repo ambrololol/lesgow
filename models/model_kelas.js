@@ -84,5 +84,19 @@ module.exports = {
             await mysql.endPool()
             return [null, error]
         }
+    },
+    edit_kelas: async function(data){
+        try {
+            await mysql.connectAsync()
+            var sql = "UPDATE ms_kelas SET kelas_name = ?, kelas_description = ? WHERE kelas_id = ?"
+            console.log(data)
+            var [result, cache] = await mysql.executeAsync(sql, [data.kelas_name, data.kelas_description, data.kelas_id])
+            await mysql.endPool()
+            return [result, null]
+        } catch {
+            console.log(error)
+            await mysql.endPool()
+            return [null, error]
+        }
     }
 }

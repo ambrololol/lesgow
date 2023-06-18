@@ -87,7 +87,34 @@ router.get('/:kelas_code', async function(req, res, next){
     });
 });
 
-// TODO LIST TRIADI WICAKSANA
+router.post('/:kelas_code/edit', async function(req, res, next){
+    let kelas_code = req.params.kelas_code
+    var [res_db, err_db] = await model_kelas.get_kelas_by_code({
+        kelas_code: kelas_code
+    })
+    let kelas_id = res_db[0].kelas_id
+    let edit_nama_kelas = req.body.edit_nama_kelas
+    let edit_deskripsi_kelas = req.body.edit_deskripsi_kelas
+
+    if(!edit_deskripsi_kelas || !edit_nama_kelas){
+        return res.status(200).send({
+            status:"FAILED",
+            message:"Bad Request"
+        })
+    }
+    var [res_edit, err_edit] = await model_kelas.edit_kelas({
+        kelas_name: edit_nama_kelas,
+        kelas_description: edit_deskripsi_kelas,
+        kelas_id: kelas_id 
+    })
+
+    return res.status(200).send({
+        status: "SUCCESS",
+        message: "Berhasil edit kelas"
+    })
+
+})
+
 router.get('/:kelas_code/kalendar', async function(req, res, next) {
     let kelas_code = req.params.kelas_code;
 
