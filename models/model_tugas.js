@@ -19,7 +19,11 @@ module.exports = {
         try {
             await mysql.connectAsync()
             var arr_input = [data.kelas_id]
-            var sql =  "SELECT td.*,mu.username FROM tr_tugas_header th JOIN tr_tugas_detail td ON th.tugas_id = td.tugas_header_id LEFT JOIN ms_user mu ON td.user_id = mu.user_id WHERE th.kelas_id = ?"
+            var sql =  "SELECT th.tugas_id,td.*,mu.username FROM tr_tugas_header th JOIN tr_tugas_detail td ON th.tugas_id = td.tugas_header_id LEFT JOIN ms_user mu ON td.user_id = mu.user_id WHERE th.kelas_id = ?"
+            if(data.tugas_id){
+                sql+=" AND th.tugas_id = ?"
+                arr_input.push(data.tugas_id)
+            }
             if(data.user_id){
                 sql+=" AND td.user_id = ?"
                 arr_input.push(data.user_id)

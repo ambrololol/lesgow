@@ -53,13 +53,22 @@ router.get('/:kelas_code', async function(req, res, next){
 
     var role = db_role[0].role_user;
     var json_input = {
-        kelas_id: kelas.kelas_id
+        kelas_id: kelas.kelas_id,
     }
     if(db_role[0].role_user != 'guru'){
         json_input.user_id = req.user.user_id
     }
     var [db_history, err_history] = await model_tugas.get_all_submission_by_kelas_and_user(json_input)
     
+    var history = {} 
+
+    for(var i in db_history){
+        if(!history[db_history[i].tugas_id]){
+            history[db_history[i].tugas_id] = []
+        }
+        history[db_history[i].tugas_id].push(db_history[i])
+    }
+    console.log(history)
 
     const currentDate = moment().startOf('day');
     const filteredJadwal = res_jadwal.filter(jadwal => moment(jadwal.tanggal).startOf('day').isSameOrAfter(currentDate))
@@ -83,7 +92,7 @@ router.get('/:kelas_code', async function(req, res, next){
         moment: moment,
         totalMembers: totalMembers,
         role: role,
-        history: db_history
+        history: history
     });
 });
 
