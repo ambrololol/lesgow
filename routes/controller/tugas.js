@@ -236,7 +236,8 @@ router.post('/:kelas_code/get_submission_history', async function(req, res, next
     }
     var kelas_id = res_db[0].kelas_id
     var json_input = {
-        kelas_id: kelas_id
+        kelas_id: kelas_id,
+        tugas_id: req.body.tugas_id
     }
     if(db_role[0].role_user != 'guru'){
         json_input.user_id = req.user.user_id
