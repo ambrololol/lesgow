@@ -34,7 +34,8 @@
               <button type="submit" class="btn btn-light" style="background-color: antiquewhite">Simpan</button>
             </div>
             <% } %>
-        </div>
+          </div>
+          <small class="text-muted"><%= moment(materi.created_at).locale('locale').format("dddd, Do MMMM YYYY h:mm") %></small>
       </div>
       <!-- body -->
       <div class="card-body">
@@ -120,11 +121,11 @@
                       <div class="d-flex justify-content-between align-items-center">
                         <p class="mb-1">
                           <%= comment.username %>
-                          <span class="small">- 30 menit yang lalu</span>
+                          <span class="small"> - <%= moment(comment.created_at).locale('locale').fromNow() %></span>
                         </p>
                         <a href="javascript:void()" onclick="replyToComment('<%= comment.username %>','<%= comment.comment_id %>')"
                           ><i class="fas fa-reply fa-sm"></i
-                          ><span class="small" style="font-size: 1.2em;"> Balas</span></a
+                          ><span class="small" style="font-size: 0.9em;"> Balas</span></a
                         >
                       </div>
                       <p class="small ml-1 mb-4">
@@ -167,12 +168,12 @@
                             class="d-flex justify-content-between align-items-center"
                           >
                             <p class="mb-1">
-                              <%= obj.username %> > <%= obj.reply_to_username %> <span class="small">- 3 hours ago</span>
+                              <%= obj.username %> > <%= obj.reply_to_username %> <span class="small"> - <%= moment(obj.created_at).locale('locale').fromNow() %> </span>
                             </p>
                             
                             <a href="javascript:void()" onclick="replyToComment('<%= obj.username %>','<%= obj.comment_id %>','<%= obj.super_parent_comment_id %>')"
                               ><i class="fas fa-reply fa-sm"></i
-                                ><span class="small" style="font-size: 1.2em;"> Balas</span></a
+                                ><span class="small" style="font-size: 0.9em;"> Balas</span></a
                             >
                           </div>
                           <p class="small mb-5">
