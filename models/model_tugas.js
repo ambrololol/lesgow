@@ -108,4 +108,25 @@ module.exports = {
             return [null, error]
         }
     },
+    edit_tugas: async function(data){
+        try {
+            await mysql.connectAsync()
+            let arr_input = [data.tugas_name, data.deadline, data.assignment_description]
+            var sql = "UPDATE tr_tugas_header SET tugas_name = ?, deadline = ?, assignment_description = ? " 
+            if(data.attachment){
+                sql+=", attachment = ? "
+                arr_input.push(data.attachment)
+            }
+            sql+="WHERE tugas_id = ?"
+            arr_input.push(data.tugas_id)
+            console.log(data)
+            var [result, cache] = await mysql.executeAsync(sql, arr_input)
+            await mysql.endPool()
+            return [result, null]
+        } catch (error){
+            console.log(error)
+            await mysql.endPool()
+            return [null, error]
+        }
+    }
 }
