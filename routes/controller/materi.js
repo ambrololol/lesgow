@@ -187,7 +187,8 @@ router.get('/:kelas_code/detail/:id', async function(req, res, next){
         res_attachment: res_attachment,
         root_comment: root_comment,
         nested_comment: nested_comment,
-        currentPage: '/materi'
+        currentPage: '/materi',
+        moment: moment
     });
 });
 
