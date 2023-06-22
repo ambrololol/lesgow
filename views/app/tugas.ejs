@@ -87,6 +87,7 @@
                       <a href="javascript:void()" onclick="deleteTugas('<%= tugas.tugas_id %>')"
                         ><i class="fa fa-trash" style="color: black;" title="Delete Tugas"></i
                       ></a>
+                      <a href="javascript:void()" onclick="openEditTugas('<%= tugas.tugas_id %>','<%= tugas.tugas_name %>','<%= tugas.assignment_description%>','<%= tugas.deadline %>','<%= tugas.attachment %>' )"><i class="fa fa-pen" style="color: black; margin-right: 15px;" title="Edit Tugas"></i></a>
                     <% } %>
                     <% if (role == 'murid' && moment().isBefore(tugas.deadline)) { %>
                       <a href="javascript:void()" onclick="uploadSubmission('<%= tugas.tugas_id %>')"
@@ -140,7 +141,7 @@
                         ><i class="fa fa-plus" style="color: black;" title="Upload Tugas"></i
                       ></a>
                       <% } %>
-                    <!-- Action khusus guru/admin kelas -->
+                    
                   </td>
                 </tr>
                 <% }) %>
@@ -154,6 +155,7 @@
   <% } %>
 </section>
 
+<!-- buat tugas -->
 <div class="modal fade" id="modal-buat-tugas">
   <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
     <div class="modal-content">
@@ -196,6 +198,53 @@
         
       </div>
       </form>
+    </div>
+  </div>
+</div>
+
+<!-- edit tugas -->
+<div class="modal fade" id="modal-edit-tugas">
+  <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Buat Tugas Baru</h5>
+        <button
+          type="close"
+          class="close"
+          data-dismiss="modal"
+          aria-label="Close"
+        >
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form id="edit_tugas">
+          <input type="hidden" name="id_edit_tugas" id="id_edit_tugas">
+          <div class="form-group">
+            <label for="edit_judul" class="col-form-label">Judul</label>
+            <input type="text" class="form-control" name="edit_tugas_name" id="edit_tugas_name" />
+          </div>
+          <div class="form-group">
+            <label for="edit_deskripsi_tugas" class="col-form-label">Deskripsi</label>
+            <textarea class="form-control" id="edit_deskripsi_tugas" name="edit_deskripsi_tugas"></textarea>
+          </div>
+          <div class="form-group">
+            <label for="edit_deadline" class="col-form-label">Batas Waktu</label>
+            <input type="text" class="form-control" name="deadlineTugas" id="edit_deadline" />
+          </div>
+          <div class="form-group">
+            <label for="deadline" class="col-form-label">Attachment</label>
+            <input type="file" class="form-control-file" name="edit_attachment" id="edit_attachment" />
+          </div>
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">
+          Kembali
+        </button>
+        <button type="submit" class="btn btn-default" style="background-color: antiquewhite">Buat</button>
+      </form>
+      </div>
     </div>
   </div>
 </div>
@@ -411,4 +460,44 @@
       });
     }
   }
+  function openEditTugas(id, tugas_name, deskripsi, deadline, attachment){
+    $("#id_edit_tugas").val(id)
+    $("#edit_tugas_name").val(tugas_name);
+    $("#edit_deskripsi_tugas").val(deskripsi);
+    let dV = new Date(moment(deadline).format('YYYY-MM-DD HH:mm:ss'))
+    console.log(moment(deadline).format('YYYY-MM-DD HH:mm:ss'))
+    console.log(dV)
+    $("#edit_deadline").data('daterangepicker').setStartDate(dV);
+    $("#modal-edit-tugas").modal('show');
+  }
+
+  $("#edit_tugas").submit(function (e) {
+    console.log("QWKEKQWEKQWE")
+    e.preventDefault();
+    var formData = new FormData();
+    
+    formData.append("id_edit_tugas",$("#id_edit_tugas").val())
+    formData.append("edit_tugas_name",$("#edit_tugas_name").val())
+    formData.append("edit_deskripsi_tugas",$("#edit_deskripsi_tugas").val())
+    formData.append("edit_deadline",$("#edit_deadline").val())
+    formData.append("edit_attachment",$("#edit_attachment")[0].files[0])
+
+
+    $.ajax({
+        type: "POST",
+        enctype: "multipart/form-data",
+        processData: false,
+        contentType: false,
+        cache: false,
+        url: "/tugas/<%= kelas_code %>/update",
+        data: formData,
+        success: function(res){
+          console.log(res)
+          alert(res.message)
+          if(res.status == 'SUCCESS'){
+            window.location.href = '/tugas/<%= kelas_code %>'
+          }
+        }
+      });
+  })
 </script>
