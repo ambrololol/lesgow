@@ -85,7 +85,7 @@
                     <% } %>
                     <% if (role == 'guru') { %>
                       <a href="javascript:void()" onclick="deleteTugas('<%= tugas.tugas_id %>')"
-                        ><i class="fa fa-trash" style="color: black;" title="Delete Tugas"></i
+                        ><i class="fa fa-trash" style="color: black; margin-right: 15px;" title="Delete Tugas"></i
                       ></a>
                       <a href="javascript:void()" onclick="openEditTugas('<%= tugas.tugas_id %>','<%= tugas.tugas_name %>','<%= tugas.assignment_description%>','<%= tugas.deadline %>','<%= tugas.attachment %>' )"><i class="fa fa-pen" style="color: black; margin-right: 15px;" title="Edit Tugas"></i></a>
                     <% } %>
