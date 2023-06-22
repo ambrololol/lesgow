@@ -85,8 +85,12 @@
           <ul class="list-group list-group-flush">
             <% arr_materi.forEach(materi => { %>
               <li class="list-group-item">
-                <i class="fa fa-paperclip"></i>
-                <%= materi.judul %>
+                <div style="display: flex; justify-content: space-between;">
+                  <div>
+                    <i class="fa fa-paperclip"></i><span>  <%= materi.judul %></span>
+                  </div>
+                  <small class="text-muted"><%= moment(materi.created_at).locale('locale').format("dddd, Do MMMM YYYY") %></small>
+                </div>
                 <p class="card-text">
                 <% if (materi.description.length > 100) { %>
                  <%= materi.description.slice(0,100)+'...' %>
