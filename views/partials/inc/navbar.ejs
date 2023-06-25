@@ -8,23 +8,22 @@
   </ul>
 
   <!-- SEARCH FORM -->
-  <!-- <form class="form-inline ml-3" action="/search/" method="get">
+  <form class="form-inline ml-3" action="/list-kelas" method="GET">
     <div class="input-group input-group-sm">
       <input
         class="form-control form-control-navbar"
         type="search"
-        id="searchQuery"
         name="kelas_name"
-        placeholder="Cari"
+        placeholder="Cari <%= currentPage === '/list-kelas' ? 'kelas' : '' %>"
         aria-label="Search"
       />
       <div class="input-group-append">
-        <button class="btn btn-navbar" id="searchButton" type="submit">
+        <button class="btn btn-navbar" id="searchButton" type="button">
           <i class="fas fa-search"></i>
         </button>
       </div>
     </div>
-  </form> -->
+  </form>
 
   <!-- Notification -->
   <ul class="navbar-nav ml-auto">

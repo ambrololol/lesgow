@@ -8,19 +8,23 @@
       </div>
       <div class="col-sm-3 ml-auto">
         <button
-          class="btn btn-light elevation-1"
+          class="btn btn-light"
           data-toggle="modal"
           data-target="#modal-buat-kelas"
           style="background-color: antiquewhite"
+          onmouseover="this.style.backgroundColor='#C8BCAC';"
+          onmouseout="this.style.backgroundColor='antiquewhite'"
         >
           <i class="nav-icon fa fa-plus"></i> Buat kelas
         </button>
         <big> atau </big>
         <button
-          class="btn btn-light elevation-1"
+          class="btn btn-light"
           data-toggle="modal"
           data-target="#modal-gabung-kelas"
           style="background-color: antiquewhite"
+          onmouseover="this.style.backgroundColor='#C8BCAC';"
+          onmouseout="this.style.backgroundColor='antiquewhite'"
         >
           <i class="nav-icon fa fa-arrow-right"></i> Gabung kelas
         </button>
@@ -66,9 +70,14 @@
                   <%= data.kelas_name %>
                 </h5>
                 <!-- ngarah ke /dashboard/kodekelas -->
-                <a href="/dashboard/<%= data.kelas_code %>" class="btn btn-light" style="background-color: antiquewhite"
-                  >Masuk kelas</a
-                  >
+                <a 
+                href="/dashboard/<%= data.kelas_code %>" 
+                class="btn btn-light" 
+                style="background-color: antiquewhite"
+                onmouseover="this.style.backgroundColor='#C8BCAC';"
+                onmouseout="this.style.backgroundColor='antiquewhite'"
+                onmouseenter="this.style.backgroundcolor='#80786E'"
+                >Masuk kelas</a>
                 </div>
                 <p class="lead mb-0 float-right">
                   Kode Kelas : <%= data.kelas_code %>
