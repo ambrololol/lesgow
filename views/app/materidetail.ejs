@@ -78,7 +78,7 @@
           <form id="post-comment">
             <div id="replyTo" style="display: none; justify-content: space-between; margin-bottom: 15px;">
               <p style="color: black;">Balas ke: <span id="receiver-comment"></span></p>
-              <button id="cancelReply" class="btn btn-secondary">Kembali</button>
+              <button id="cancelReply" class="btn btn-secondary" type="button">Kembali</button>
             </div>
             <input type="hidden" id="parent_comment_id" name="parent_comment_id" value="">
             <input type="hidden" id="super_parent_comment_id" name="super_parent_comment_id" value="">
@@ -98,7 +98,11 @@
           ></textarea>
           <div style="display: flex; justify-content: space-between; margin-top: 15px;">
             <input type="file" class="form-file-control" id="attachment-comment">
-            <button class="btn btn-default" style="background-color: antiquewhite" type="submit">Unggah</button>
+            <button class="btn btn-default" 
+            style="background-color: antiquewhite" type="submit"
+            onmouseover="this.style.backgroundColor='#C8BCAC';"
+            onmouseout="this.style.backgroundColor='antiquewhite';"
+            >Unggah</button>
           </div>
         </form>
         </div>

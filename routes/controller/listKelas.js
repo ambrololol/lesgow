@@ -109,17 +109,5 @@ router.post('/joinkelas', async function(req, res, next){
     })
 });
 
-// router.post('/delete/:kelas_id', async function(req, res, next){ 
-//     let kelas_id = req.params.kelas_id
-//     var [res_db, err_db] = await model_kelas.delete_kelas({
-//         kelas_id: kelas_id
-//     })
-//     return res.redirect('back')
-// })
-// router.post('/update/:kelas_id', async function(req, res, next){
-//     let kelas_id = req.params.kelas_id
-//     var [res_db, err_db] = await model_kelas.delete_kelas({
-//         kelas_id: kelas_id
-//     })
-// })
+
 module.exports = router;
