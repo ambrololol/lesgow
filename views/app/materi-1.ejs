@@ -9,10 +9,12 @@
       <div class="col-sm-2 ml-auto">
         <% if (role == "guru") { %>
         <button
-          class="btn btn-light elevation-1"
+          class="btn btn-light"
           data-toggle="modal"
           data-target="#modal-buat-materi"
           style="background-color: antiquewhite"
+          onmouseover="this.style.backgroundColor='#C8BCAC';"
+          onmouseout="this.style.backgroundColor='antiquewhite'"
         >
           <i class="nav-icon fas fa-plus"></i> Buat Materi
         </button>
@@ -62,10 +64,11 @@
                     <%= materi.description.slice(0, 180) %>
                   <% } %>
                 </p>
-                <a href="/materi/<%= kelas_code %>/detail/<%= materi.materi_id %>" class="btn btn-light" style="background-color: antiquewhite;"
-                >Lihat Materi</a
-                >
-                
+                <a href="/materi/<%= kelas_code %>/detail/<%= materi.materi_id %>" class="btn btn-light" 
+                  style="background-color: antiquewhite;"
+                  onmouseover="this.style.backgroundColor='#C8BCAC';"
+                  onmouseout="this.style.backgroundColor='antiquewhite'"
+                >Lihat Materi</a>
               </div>
             </div>
           </div>
@@ -119,7 +122,10 @@
           <button type="button" class="btn btn-secondary" data-dismiss="modal">
             Kembali
           </button>
-          <button type="submit" class="btn btn-light" style="background-color: antiquewhite;">Buat</button>
+          <button type="submit" class="btn btn-light" style="background-color: antiquewhite;" 
+          onmouseover="this.style.backgroundColor='#C8BCAC';"
+          onmouseout="this.style.backgroundColor='antiquewhite'"
+          >Buat</button>
         </div>
       </form>
       <!-- Form Buat Materi END-->

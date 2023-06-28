@@ -34,7 +34,8 @@
               <button type="submit" class="btn btn-light" style="background-color: antiquewhite">Simpan</button>
             </div>
             <% } %>
-        </div>
+          </div>
+          <small class="text-muted"><%= moment(materi.created_at).locale('locale').format("dddd, Do MMMM YYYY h:mm") %></small>
       </div>
       <!-- body -->
       <div class="card-body">
@@ -77,7 +78,7 @@
           <form id="post-comment">
             <div id="replyTo" style="display: none; justify-content: space-between; margin-bottom: 15px;">
               <p style="color: black;">Balas ke: <span id="receiver-comment"></span></p>
-              <button id="cancelReply" class="btn btn-secondary">Kembali</button>
+              <button id="cancelReply" class="btn btn-secondary" type="button">Kembali</button>
             </div>
             <input type="hidden" id="parent_comment_id" name="parent_comment_id" value="">
             <input type="hidden" id="super_parent_comment_id" name="super_parent_comment_id" value="">
@@ -97,7 +98,11 @@
           ></textarea>
           <div style="display: flex; justify-content: space-between; margin-top: 15px;">
             <input type="file" class="form-file-control" id="attachment-comment">
-            <button class="btn btn-default" style="background-color: antiquewhite" type="submit">Unggah</button>
+            <button class="btn btn-default" 
+            style="background-color: antiquewhite" type="submit"
+            onmouseover="this.style.backgroundColor='#C8BCAC';"
+            onmouseout="this.style.backgroundColor='antiquewhite';"
+            >Unggah</button>
           </div>
         </form>
         </div>
@@ -120,11 +125,11 @@
                       <div class="d-flex justify-content-between align-items-center">
                         <p class="mb-1">
                           <%= comment.username %>
-                          <span class="small">- 30 menit yang lalu</span>
+                          <span class="small"> - <%= moment(comment.created_at).locale('locale').fromNow() %></span>
                         </p>
                         <a href="javascript:void()" onclick="replyToComment('<%= comment.username %>','<%= comment.comment_id %>')"
                           ><i class="fas fa-reply fa-sm"></i
-                          ><span class="small" style="font-size: 1.2em;"> Balas</span></a
+                          ><span class="small" style="font-size: 0.9em;"> Balas</span></a
                         >
                       </div>
                       <p class="small ml-1 mb-4">
@@ -167,12 +172,12 @@
                             class="d-flex justify-content-between align-items-center"
                           >
                             <p class="mb-1">
-                              <%= obj.username %> > <%= obj.reply_to_username %> <span class="small">- 3 hours ago</span>
+                              <%= obj.username %> > <%= obj.reply_to_username %> <span class="small"> - <%= moment(obj.created_at).locale('locale').fromNow() %> </span>
                             </p>
                             
                             <a href="javascript:void()" onclick="replyToComment('<%= obj.username %>','<%= obj.comment_id %>','<%= obj.super_parent_comment_id %>')"
                               ><i class="fas fa-reply fa-sm"></i
-                                ><span class="small" style="font-size: 1.2em;"> Balas</span></a
+                                ><span class="small" style="font-size: 0.9em;"> Balas</span></a
                             >
                           </div>
                           <p class="small mb-5">

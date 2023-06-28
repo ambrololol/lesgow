@@ -8,14 +8,15 @@
   </ul>
 
   <!-- SEARCH FORM -->
-  <form class="form-inline ml-3" action="/search/" method="get">
+  <% if (['list-kelas', 'profile', 'materi'].includes(page)) { %>
+  <form class="form-inline ml-3" action="/list-kelas/search" method="GET">
     <div class="input-group input-group-sm">
       <input
         class="form-control form-control-navbar"
         type="search"
-        id="searchQuery"
         name="kelas_name"
-        placeholder="Cari"
+        id="kelasInput"
+        placeholder="Cari <%= currentPage === '/list-kelas' ? 'kelas' : '' %>"
         aria-label="Search"
       />
       <div class="input-group-append">
@@ -25,6 +26,8 @@
       </div>
     </div>
   </form>
+  <div id="resultsContainer"></div>
+  <% } %>
 
   <!-- Notification -->
   <ul class="navbar-nav ml-auto">
@@ -61,3 +64,52 @@
   </ul>
   <!-- Notification END -->
 </nav>
+<script>
+  document
+    .getElementById("searchForm")
+    .addEventListener("submit", function (e) {
+      e.preventDefault();
+      var kelasName = document.querySelector('input[name="kelas_name"]').value;
+      var actionUrl = "/list-kelas/search?kelas_name=" + kelasName;
+      document.getElementById("searchForm").action = actionUrl;
+
+      this.submit();
+    });
+
+  document.getElementById("kelasInput").addEventListener("input", function () {
+    var searchQuery = this.value.trim();
+
+    if (searchQuery === "") {
+      // Clear the results if the input is empty
+      clearResults();
+    } else {
+      // Fetch matching items from the server
+      fetchItems(searchQuery).then(renderResults).catch(console.error);
+    }
+  });
+
+  function fetchItems(searchQuery) {
+    return fetch(`/list-kelas/search?kelas_name=${searchQuery}`)
+      .then((response) => response.json())
+      .then((data) => data.items);
+  }
+
+  function renderResults(items) {
+    var resultsContainer = document.getElementById("resultsContainer");
+    resultsContainer.innerHTML = ""; // Clear previous results
+
+    if (items.length > 0) {
+      var list = document.createElement("ul");
+
+      items.forEach(function (item) {
+        var listItem = document.createElement("li");
+        listItem.textContent = item.name;
+        list.appendChild(listItem);
+      });
+
+      resultsContainer.appendChild(list);
+    } else {
+      resultsContainer.textContent = "No results found.";
+    }
+  }
+</script>
