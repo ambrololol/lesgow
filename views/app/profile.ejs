@@ -17,13 +17,19 @@
 <section class="content">
   <div class="row">
     <section class="col-lg-3">
-      <div class="card card-primary card-outline">
+      <div class="card card-danger card-outline">
         <div class="card-body box-profile">
           <div class="text-center">
             <img
               class="profile-user-image img-size-64 img-circle"
               src="/image/<%- user.photo_path %>"
               alt="User profile picture"
+              style="
+              width: 70px;
+              height: 70px;
+              object-fit: cover;
+              object-position: center;
+            "
             />
           </div>
           <h3 class="profile-username text-center"><%- user.username %></h3>
