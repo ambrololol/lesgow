@@ -49,7 +49,7 @@ router.get('/logout', async function(req, res, next){
         return
     }
     req.logout(async function (err){
-        res.redirect('/')
+        res.redirect('/auth/login')
     });
 });
 
