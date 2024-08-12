@@ -109,17 +109,14 @@ router.post('/joinkelas', async function(req, res, next){
     })
 });
 
-// router.post('/delete/:kelas_id', async function(req, res, next){ 
-//     let kelas_id = req.params.kelas_id
-//     var [res_db, err_db] = await model_kelas.delete_kelas({
-//         kelas_id: kelas_id
-//     })
-//     return res.redirect('back')
-// })
-// router.post('/update/:kelas_id', async function(req, res, next){
-//     let kelas_id = req.params.kelas_id
-//     var [res_db, err_db] = await model_kelas.delete_kelas({
-//         kelas_id: kelas_id
-//     })
-// })
+router.get('/search', async function(req, res, next){
+    var kelas_name = req.query.kelas_name
+    var [res_db, err_db] = await model_kelas.cari_kelas({
+        kelas_name: kelas_name
+    })
+    console.log(res_db)
+    var kelas_code = res_db[0].kelas_code
+    res.redirect(`/dashboard/${kelas_code}`);
+})
+
 module.exports = router;

@@ -27,6 +27,24 @@ const uploadTugas = multer({
     { name: 'upload_tugas', maxCount: 1 }
 ])
 
+const editAttachment = multer({
+    storage: multer.diskStorage({
+        destination: function(req, file, cb) {
+            if (!fs.existsSync(path_upload_tugas)) {
+                fs.mkdirSync(path_upload_tugas, "0777")
+            }
+            if(file.fieldname == "upload_tugas")
+                cb(null, path_upload_tugas)
+        },
+        filename: function(req, file, cb) {
+            if(file.fieldname == "upload_tugas")
+                cb(null, Date.now() + path.extname(file.originalname))
+        }
+    }),
+}).fields([
+    { name: 'edit_attachment', maxCount: 1 }
+])
+
 const uploadSubmission = multer({
     storage: multer.diskStorage({
         destination: function(req, file, cb) {
@@ -236,8 +254,7 @@ router.post('/:kelas_code/get_submission_history', async function(req, res, next
     }
     var kelas_id = res_db[0].kelas_id
     var json_input = {
-        kelas_id: kelas_id,
-        tugas_id: req.body.tugas_id
+        kelas_id: kelas_id
     }
     if(db_role[0].role_user != 'guru'){
         json_input.user_id = req.user.user_id
@@ -253,5 +270,37 @@ router.post('/:kelas_code/get_submission_history', async function(req, res, next
     })
 });
 
+router.post('/:kelas_code/update', async function(req, res, next){
+    console.log("koawkdoqkwod")
+    console.log(req.body)
+    
+
+    editAttachment(req, res, async function(err) {
+        console.log(req.files["upload_tugas"])
+        console.log(req.body)
+        console.log(req.files)
+        var file_data = req.files["upload_tugas"] ? req.files["upload_tugas"][0] : ""
+        var file_name = file_data ? file_data.filename : ""
+
+        let tugas_id = req.body.id_edit_tugas
+        let edit_tugas_name = req.body.edit_tugas_name
+        let edit_deadline = req.body.edit_deadline
+        let edit_deskripsi_tugas = req.body.edit_deskripsi_tugas
+        let edit_attachment = file_name
+
+        var [res_insert, err_insert] = await model_tugas.edit_tugas({
+            tugas_name: edit_tugas_name,
+            deadline: edit_deadline,
+            assignment_description: edit_deskripsi_tugas,
+            attachment: edit_attachment,
+            tugas_id: tugas_id
+        })
+
+        return res.status(200).send({
+            status:"SUCCESS",
+            message:"Berhasil menambahkan tugas"
+        })
+    })
+})
 
 module.exports = router;

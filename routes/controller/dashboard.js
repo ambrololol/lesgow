@@ -70,14 +70,15 @@ router.get('/:kelas_code', async function(req, res, next){
     }
     console.log(history)
 
-    const currentDate = moment().startOf('day');
-    const filteredJadwal = res_jadwal.filter(jadwal => moment(jadwal.tanggal).startOf('day').isSameOrAfter(currentDate))
-    const filteredTugas = res_tugas.filter(tugas => moment(tugas.deadline).startOf('day').isSameOrAfter(currentDate));
+    const currentDate = moment().startOf('minute');
+    const filteredJadwal = res_jadwal.filter(jadwal => moment(jadwal.tanggal).startOf('minute').isAfter(currentDate))
+    const filteredTugas = res_tugas.filter(tugas => moment(tugas.deadline).startOf('minute').isAfter(currentDate));
     const totalMembers = res_member.length;
     
     var limitMateri = res_materi.slice(0, 3);
     var limitJadwal = filteredJadwal.slice(0, 3);
-    var limitTugas = filteredTugas.slice(0,3);
+    var limitTugas = filteredTugas.slice(0, 4);
+    var limitMember = res_member.slice(0, 5)
 
     res.render('app/dashboard', {
         user: req.user,
@@ -85,7 +86,7 @@ router.get('/:kelas_code', async function(req, res, next){
         kelas: kelas,
         kelas_code: kelas_code,
         currentPage: '/dashboard',
-        arr_orang : res_member,
+        arr_orang : limitMember,
         arr_jadwal: limitJadwal,
         arr_materi: limitMateri,
         arr_tugas: limitTugas,

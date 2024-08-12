@@ -16,7 +16,7 @@ router.get('/', async function(req, res, next){
     if(req.user){
         user = req.user
     }
-    res.render('app/landing_page',{
+    res.render('auth/login',{
         user:user
     });
 })

@@ -18,9 +18,9 @@ module.exports = {
     get_kelas: async function(data){
         try{
             await mysql.connectAsync()
-            var sql = "SELECT * FROM ms_user"
+            var sql = "SELECT * FROM ms_kelas WHERE kelas_name = ?"
             console.log(data)
-            var [result, cache] = await mysql.executeAsync(sql, [])
+            var [result, cache] = await mysql.executeAsync(sql, [data.kelas_name])
             await mysql.endPool()
             return [result, null]
         } catch (error){
@@ -74,7 +74,7 @@ module.exports = {
     cari_kelas: async function(data){
         try {
             await mysql.connectAsync()
-            var sql = "SELECT * FROM ms_kelas WHERE kelas_name LIKE ?";
+            var sql = "SELECT mk.* FROM ms_kelas mk LEFT JOIN tr_kelas_member tkm ON mk.kelas_id = tkm.kelas_id WHERE kelas_name LIKE ?";
             console.log(data);
             var [result, cache] = await mysql.executeAsync(sql, [data.kelas_name])
             await mysql.endPool()
